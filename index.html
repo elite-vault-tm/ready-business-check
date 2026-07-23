@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The R.E.A.D.Y. Business Check™ | The Elite Vault</title>
+<style>
+  :root{
+    --black:#15121a;
+    --black-2:#221d29;
+    --ink:#2a2531;
+    --cream:#faf6ef;
+    --white:#ffffff;
+    --fuchsia:#b81566;
+    --fuchsia-deep:#8e1050;
+    --fuchsia-soft:#fbe9f2;
+    --gold:#c9a227;
+    --gold-soft:#e8d391;
+    --muted:#6f6a76;
+    --line:#eae3d6;
+    --good:#1e7d4f;
+    --radius:18px;
+    --shadow:0 12px 34px rgba(21,18,26,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--cream);color:var(--ink);line-height:1.65;min-height:100vh;
+  }
+  .wrap{max-width:700px;margin:0 auto;padding:18px 18px 64px;}
+  .marque{
+    text-align:center;padding:24px 0 4px;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:14px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;
+  }
+  .marque-sub{text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+  .screen{display:none;animation:fadeUp .4s ease both;}
+  .screen.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:32px 28px;margin-top:16px;
+  }
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(28px,6vw,40px);line-height:1.15;color:var(--black);margin-bottom:6px;}
+  .descriptor{color:var(--muted);font-size:15px;margin-bottom:16px;letter-spacing:.02em;}
+  .tagline{
+    font-family:Georgia,serif;font-style:italic;font-size:clamp(18px,4.5vw,23px);
+    color:var(--black);border-left:4px solid var(--fuchsia);padding-left:16px;margin:20px 0;
+  }
+  p{margin-bottom:14px;font-size:16.5px;}
+  .small{font-size:14px;color:var(--muted);}
+  .btn{
+    display:inline-block;width:100%;text-align:center;background:var(--fuchsia);color:#fff;
+    border:none;border-radius:13px;padding:17px 22px;font-size:17px;font-weight:700;
+    cursor:pointer;transition:transform .12s,background .15s;font-family:inherit;
+  }
+  .btn:hover{background:var(--fuchsia-deep);transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn.dark{background:var(--black);}
+  .btn.dark:hover{background:var(--black-2);}
+  .btn.ghost{background:transparent;color:var(--black);border:2px solid var(--line);font-weight:600;}
+  .btn.ghost:hover{border-color:var(--fuchsia);background:var(--fuchsia-soft);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{
+    outline:3px solid var(--fuchsia);outline-offset:2px;border-radius:8px;
+  }
+  .btn-row{display:flex;gap:12px;margin-top:22px;}
+  .btn-row .btn{flex:1;}
+  label.field-label{display:block;font-weight:700;color:var(--black);font-size:15px;margin-top:6px;}
+  .req{color:var(--fuchsia);font-weight:800;margin-left:2px;}
+  input[type=text],input[type=email],textarea{
+    width:100%;padding:16px;font-size:17px;border:2px solid var(--line);border-radius:13px;
+    font-family:inherit;background:#fffdf9;color:var(--ink);margin:10px 0 4px;
+  }
+  input[type=text]:focus,input[type=email]:focus,textarea:focus{outline:none;border-color:var(--fuchsia);}
+  input.invalid{border-color:var(--fuchsia-deep);}
+  textarea{min-height:130px;resize:vertical;line-height:1.55;}
+  .consent-row{display:flex;gap:10px;align-items:flex-start;margin:16px 0 6px;}
+  .consent-row input[type=checkbox]{width:20px;height:20px;margin-top:2px;accent-color:var(--fuchsia);flex:0 0 20px;cursor:pointer;}
+  .consent-row label{font-size:14.5px;color:var(--ink);cursor:pointer;}
+  .privacy-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
+  .hp-field{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+  .scale-list{margin:16px 0;}
+  .scale-list li{list-style:none;display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:16px;}
+  .scale-list li:last-child{border-bottom:none;}
+  .scale-num{
+    flex:0 0 38px;height:38px;border-radius:50%;background:var(--black);color:var(--gold-soft);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;
+  }
+  .reminder{background:var(--fuchsia-soft);border-radius:12px;padding:14px 16px;font-size:15.5px;}
+  /* questions */
+  .q-meta{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);margin-bottom:8px;font-weight:600;}
+  .progress-track{height:9px;background:#efe8da;border-radius:99px;overflow:hidden;margin-bottom:26px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--fuchsia),var(--fuchsia-deep));border-radius:99px;transition:width .35s ease;}
+  .q-statement{font-family:Georgia,serif;font-size:clamp(21px,5vw,26px);line-height:1.35;color:var(--black);margin-bottom:8px;}
+  .q-reflect{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:16px;}
+  .score-btns{display:flex;flex-direction:column;gap:10px;margin:16px 0 4px;}
+  .score-btn{
+    display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fffdf9;
+    border:2px solid var(--line);border-radius:13px;padding:13px 16px;font-size:16px;
+    cursor:pointer;font-family:inherit;color:var(--ink);
+    transition:border-color .12s,background .12s,transform .12s;
+  }
+  .score-btn:hover{border-color:var(--fuchsia);transform:translateY(-1px);}
+  .score-btn[aria-checked="true"]{border-color:var(--fuchsia);background:var(--fuchsia-soft);font-weight:700;}
+  .score-btn .n{
+    flex:0 0 34px;height:34px;border-radius:50%;border:2px solid var(--black);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--black);
+  }
+  .score-btn[aria-checked="true"] .n{background:var(--fuchsia);border-color:var(--fuchsia);color:#fff;}
+  .score-btn .check{margin-left:auto;color:var(--fuchsia);font-weight:800;visibility:hidden;}
+  .score-btn[aria-checked="true"] .check{visibility:visible;}
+  .err{
+    display:none;background:#fdeef0;border:1px solid #f3c9d2;color:#8e1035;
+    border-radius:11px;padding:12px 14px;font-size:15px;margin-top:12px;font-weight:600;
+  }
+  .err.show{display:block;animation:fadeUp .25s ease both;}
+  /* results */
+  .score-hero{
+    background:var(--black);color:#fff;border-radius:var(--radius);
+    padding:36px 26px;text-align:center;margin-top:16px;box-shadow:var(--shadow);
+  }
+  .score-hero .hero-marque{font-family:Georgia,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+  .score-hero .lvl{
+    display:inline-block;background:var(--fuchsia);color:#fff;font-weight:800;font-size:14px;
+    letter-spacing:.08em;text-transform:uppercase;border-radius:99px;padding:8px 20px;margin-bottom:16px;
+  }
+  .score-hero h2{font-family:Georgia,serif;font-size:clamp(22px,5.5vw,30px);line-height:1.3;margin-bottom:8px;}
+  .score-hero .big{font-size:clamp(48px,12vw,66px);font-family:Georgia,serif;color:var(--gold-soft);font-weight:700;line-height:1.1;}
+  .score-hero .pct{color:#c9c4d2;font-size:15px;margin-top:4px;}
+  .opening{font-size:17.5px;font-family:Georgia,serif;line-height:1.6;color:var(--black);}
+  h3.section{font-family:Georgia,serif;color:var(--black);font-size:22px;margin-bottom:12px;}
+  .bar-row{margin-bottom:16px;}
+  .bar-label{display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:var(--black);margin-bottom:5px;flex-wrap:wrap;gap:4px;}
+  .bar-label .letter{color:var(--fuchsia);margin-right:6px;}
+  .bar-track{height:12px;background:#efe8da;border-radius:99px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--black),var(--black-2));transition:width .8s ease;}
+  .bar-fill.best{background:linear-gradient(90deg,var(--gold),var(--gold-soft));}
+  .bar-fill.worst{background:linear-gradient(90deg,var(--fuchsia-deep),var(--fuchsia));}
+  .pill{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:3px 10px;margin-left:8px;}
+  .pill.best{background:#f6eecb;color:#7c630c;}
+  .pill.worst{background:var(--fuchsia-soft);color:var(--fuchsia-deep);}
+  .callout{border-radius:13px;padding:18px;margin-bottom:14px;font-size:16px;}
+  .callout.strong{background:#fbf6e4;border:1px solid #ecdca6;}
+  .callout.weak{background:var(--fuchsia-soft);border:1px solid #f0c4da;}
+  .callout.insight{background:#f0eef4;border:1px solid #d8d3e0;}
+  .callout h4{font-family:Georgia,serif;color:var(--black);font-size:18px;margin-bottom:8px;}
+  details.cat{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fffdf9;}
+  details.cat summary{
+    cursor:pointer;padding:15px 16px;font-weight:700;color:var(--black);font-size:16px;
+    display:flex;justify-content:space-between;align-items:center;list-style:none;gap:8px;
+  }
+  details.cat summary::-webkit-details-marker{display:none;}
+  details.cat summary .chev{transition:transform .2s;color:var(--fuchsia);font-size:13px;}
+  details.cat[open] summary .chev{transform:rotate(90deg);}
+  .cat-body{padding:0 16px 16px;border-top:1px dashed var(--line);}
+  .cat-body h5{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fuchsia);margin:15px 0 4px;font-weight:800;}
+  .cat-body p{font-size:15.5px;margin-bottom:6px;}
+  .move-box{background:var(--black);color:#fff;border-radius:var(--radius);padding:28px 26px;margin-top:16px;box-shadow:var(--shadow);}
+  .move-box h3{font-family:Georgia,serif;color:var(--gold-soft);font-size:21px;margin-bottom:10px;}
+  .move-box p{color:#eee9f2;font-size:16.5px;}
+  .move-box .why{color:#bcb5c6;font-size:15px;font-style:italic;}
+  .reflect-box{
+    background:#fffdf7;border:1px dashed var(--fuchsia);border-radius:13px;padding:20px;
+    margin-top:16px;font-family:Georgia,serif;font-style:italic;font-size:17.5px;color:var(--black);
+  }
+  /* summary card */
+  #summary-card{background:var(--white);border:2px solid var(--gold);border-radius:var(--radius);padding:28px;margin-top:16px;}
+  #summary-card .sc-brand{font-family:Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;font-size:13px;text-align:center;}
+  #summary-card .sc-title{font-family:Georgia,serif;text-align:center;font-size:20px;color:var(--black);margin:4px 0 2px;}
+  #summary-card .sc-sub{text-align:center;font-size:12px;color:var(--muted);margin-bottom:16px;letter-spacing:.04em;}
+  #summary-card table{width:100%;border-collapse:collapse;}
+  #summary-card td{padding:9px 4px;font-size:15px;border-bottom:1px dashed var(--line);vertical-align:top;}
+  #summary-card td:first-child{color:var(--muted);font-weight:600;width:42%;}
+  #summary-card td:last-child{color:var(--black);font-weight:700;}
+  #summary-card tr:last-child td{border-bottom:none;}
+  .actions-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+  .actions-row .btn{flex:1 1 150px;font-size:15px;padding:14px 12px;}
+  .copied-note{font-size:14px;color:var(--good);font-weight:700;text-align:center;margin-top:8px;display:none;}
+  .copied-note.show{display:block;}
+  .next-step{background:var(--black);color:#fff;border-radius:var(--radius);padding:30px 26px;margin-top:16px;}
+  .next-step h3{font-family:Georgia,serif;color:var(--gold-soft);font-size:22px;margin-bottom:10px;}
+  .next-step p{color:#e2ddea;font-size:16px;}
+  .fb-card{text-align:center;}
+  .fb-card p{font-size:15.5px;}
+  a.btn{text-decoration:none;box-sizing:border-box;}
+  footer.credit{text-align:center;margin-top:28px;font-size:12.5px;color:var(--muted);}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  /* submission status */
+  .submit-status{border-radius:12px;padding:14px 16px;margin-top:12px;font-size:15px;font-weight:600;text-align:center;}
+  .submit-status.loading{background:#f0eef4;color:var(--ink);border:1px solid #d8d3e0;}
+  .submit-status.success{background:#e9f5ee;color:#155c3b;border:1px solid #bfe0cd;}
+  .submit-status.fail{background:#fdeef0;color:#8e1035;border:1px solid #f3c9d2;}
+  .submit-status .retry-btn{margin-top:10px;background:var(--black);color:#fff;border:none;border-radius:11px;
+    padding:12px 18px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+  /* restart confirm */
+  .restart-confirm{background:var(--fuchsia-soft);border:1px solid #f0c4da;border-radius:13px;padding:18px;margin-top:14px;}
+  .restart-confirm p{font-size:15px;margin-bottom:12px;color:var(--black);font-weight:600;}
+  .restart-confirm .btn-row{margin-top:0;}
+  @media print{
+    body *{visibility:hidden;}
+    #summary-card,#summary-card *{visibility:visible;}
+    #summary-card{position:absolute;top:0;left:0;width:100%;border:2px solid #777;box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="marque">The Elite Vault</div>
+
+  <!-- SCREEN 1: WELCOME -->
+  <section id="s-welcome" class="screen active" aria-label="Welcome">
+    <div class="card">
+      <h1>The R.E.A.D.Y. Business Check™</h1>
+      <div class="descriptor">An Interactive Business Growth Readiness Assessment</div>
+      <div class="tagline">If your business grew overnight, would it be ready to convert?</div>
+      <p>One thing I&rsquo;ve learned while growing my own business: more visibility does not automatically create more business. Sometimes the audience is growing, the content is moving, and the income still looks exactly the same. That is usually a sign that something between attention and conversion needs a closer look.</p>
+      <p>Posting is one part of growth — but followers are not automatically potential customers. Relationships, referrals, trust, guidance, accountability, systems, and clear next steps matter too. A business can look active online while important growth pieces are still missing.</p>
+      <p>This check helps you see which pieces are working — and which ones deserve your attention.</p>
+      <button class="btn" onclick="go('s-name')">Check My Business</button>
+      <p class="small" style="text-align:center;margin-top:12px;margin-bottom:0;">5 questions. Personalized results. One clear next move.</p>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: NAME + EMAIL -->
+  <section id="s-name" class="screen" aria-label="Your information">
+    <div class="card">
+      <h1 style="font-size:clamp(24px,5.5vw,30px);">What should we call you?</h1>
+      <p class="small">Your results will appear immediately after the check. Your email allows The Elite Vault to save your completed result and send information connected to what you are building.</p>
+
+      <label class="field-label" for="name-input">First name<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
+      <input type="text" id="name-input" maxlength="30" placeholder="Your first name" autocomplete="given-name" aria-required="true" aria-describedby="name-error">
+      <div class="err" id="name-error" role="alert"></div>
+
+      <label class="field-label" for="email-input">Where should we send your Business Check information?<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
+      <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" aria-required="true" aria-describedby="email-error">
+      <div class="err" id="email-error" role="alert"></div>
+
+      <div class="consent-row">
+        <input type="checkbox" id="consent-input">
+        <label for="consent-input">Yes, send me practical Elite Vault tips, content support, and updates. I can unsubscribe anytime.</label>
+      </div>
+      <p class="privacy-note">Your information will be used to process your Business Check. Marketing updates are optional.</p>
+
+      <div class="hp-field" aria-hidden="true">
+        <label for="company_website">Company Website</label>
+        <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="btn-name-continue" onclick="submitNameEmail()">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: BEFORE YOU BEGIN -->
+  <section id="s-how" class="screen" aria-label="Before you begin">
+    <div class="card">
+      <h1 style="font-size:clamp(24px,5.5vw,30px);">Before You Begin</h1>
+      <p>Building a business on Facebook takes more than posting consistently.</p>
+      <p>Consistency matters, but intention matters too. Your content should help the right people recognize what you do, understand how you can help, and know where to go next.</p>
+      <p style="font-weight:700;color:var(--black);margin-bottom:6px;">Facebook can also help you grow by:</p>
+      <ul class="scale-list">
+        <li><span class="scale-num" aria-hidden="true">✦</span> Creating your own space where people can continue learning from you</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Joining useful conversations where your audience is already active</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Building genuine relationships with other entrepreneurs</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Developing collaboration and referral relationships</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Paying attention to which posts create real business conversations</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Giving interested people a clear destination, such as an offer page, landing page, booking link, resource, or community</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Creating simple systems so inquiries and opportunities do not get lost</li>
+        <li><span class="scale-num" aria-hidden="true">✦</span> Tracking what happens after someone follows, comments, clicks, or messages</li>
+      </ul>
+      <p>These five questions will help you look beyond how often you post and consider whether your Facebook activity is supporting the business you are trying to build.</p>
+      <p class="reminder"><strong>One honest rule:</strong> Answer based on the business you are running today, not the version currently living in your plans, drafts, or imagination. 😅</p>
+      <button class="btn" onclick="startCheck()">Start My Business Check</button>
+    </div>
+  </section>
+
+  <!-- QUESTION SCREEN -->
+  <section id="s-question" class="screen" aria-label="Assessment question">
+    <div class="card">
+      <div class="q-meta">
+        <span id="q-count" aria-live="polite">Question 1 of 5</span>
+        <span id="q-pct">0%</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="Assessment progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="q-progressbar">
+        <div id="q-progress" class="progress-fill" style="width:0%"></div>
+      </div>
+      <div id="q-statement" class="q-statement"></div>
+      <div id="q-reflect" class="q-reflect"></div>
+      <div id="score-btns" class="score-btns" role="radiogroup" aria-labelledby="q-statement"></div>
+      <div id="q-error" class="err" role="alert"></div>
+      <div class="btn-row">
+        <button class="btn ghost" id="btn-back" onclick="prevQuestion()">Back</button>
+        <button class="btn" id="btn-next" onclick="nextQuestion()">Continue</button>
+      </div>
+      <p class="small" style="margin-top:12px;margin-bottom:0;text-align:center;">Tip: you can also press 1–3 on your keyboard.</p>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="s-results" class="screen" aria-label="Your results">
+    <div id="results-content"></div>
+  </section>
+
+  <footer class="credit">© The Elite Vault · The Elite Vault R.E.A.D.Y. Framework™</footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   THE ELITE VAULT — The R.E.A.D.Y. Business Check™
+   A short business-growth readiness assessment. Five questions,
+   one per R.E.A.D.Y. category, three response choices each.
+   Not a full audit. Not a Facebook page inspection. Does not
+   claim to have reviewed the user's actual page or profile.
+   ------------------------------------------------------------
+   CONFIGURATION — the Formspree endpoint and all external links
+   live in this single object. Nothing else in the script should
+   hardcode these values.
+   ============================================================ */
+const CONFIG = {
+  formspreeEndpoint: "https://formspree.io/f/xnjegdwe",
+  facebookUrl: "https://www.facebook.com/EliteVaultSNJ",
+  messengerUrl: "https://m.me/EliteVaultSNJ",
+  simplifiedContentGuideUrl: "https://stan.store/SabrinaNicholsJohnson/p/the-simplified-content-guide",
+  storageKey: "elitevault_ready_check_v4"
+};
+/* Local-storage schema version. Bumped independently of CONFIG.storageKey
+   so old/incompatible saved data is safely ignored rather than restored. */
+const SCHEMA_VERSION = 5;
+
+/* ====================== RESPONSE SCALE (3 choices — unchanged) ====================== */
+const RESPONSE_OPTIONS=[
+  {n:1,label:"Absolutely not. We are operating on vibes over here 😅",pts:1},
+  {n:2,label:"Kind of. I have a plan somewhere between my brain, notes, and screenshots",pts:2},
+  {n:3,label:"Yes. There is a clear process, and I know where to find it",pts:3}
+];
+
+/* ====================== QUESTIONS ======================
+   Q1 (Reach), Q3 (Authority), Q4 (Delivery) unchanged.
+   Q2 (Experience) and Q5 (Yes) updated to include the
+   offer/destination/landing-page theme. */
+const QUESTIONS = [
+  {id:"R1",cat:"R",
+   text:"Do I have a clear way to tell whether the people finding and engaging with my business are potential customers, collaborators, referral partners, or valuable connections?",
+   reflect:"A bigger audience is not automatically a better audience."},
+  {id:"E1",cat:"E",
+   text:"Do I have a clear path that helps interested people understand what I offer, where to go next, and what they will find when they click?",
+   reflect:"Getting the click is only part of the journey. There needs to be something clear waiting on the other side."},
+  {id:"A1",cat:"A",
+   text:"Do I consistently use my content, experience, results, or proof to give people a clear reason to trust my business?",
+   reflect:"Useful content gets attention. Visible experience and proof help build trust."},
+  {id:"D1",cat:"D",
+   text:"Do I have clear systems for handling inquiries, following up, serving customers, and managing new opportunities without becoming overwhelmed?",
+   reflect:"More attention can create more stress when the process is not ready for it."},
+  {id:"Y1",cat:"Y",
+   text:"Do I have a clear way to track whether my visibility and engagement are leading people to my offers, landing pages, inquiries, bookings, purchases, referrals, collaborations, or another meaningful business result?",
+   reflect:"Engagement feels good. Business movement matters too."}
+];
+const CAT_ORDER=["R","E","A","D","Y"];
+
+/* ====================== READINESS LEVELS (scoring unchanged) ====================== */
+const LEVELS = [
+  {key:"foundation",name:"Foundation Needed",playful:"Running on Vibes",min:5,max:7,
+   openings:[
+    ["You do not need to turn your business into a corporate operations department by Friday. You need one clear place to begin.",
+     "Right now, some important parts of your growth may depend on memory, motivation, or hoping you remember which screenshot had the good idea. 😅 Your answers suggest the ideas are there — the processes just are not built yet.",
+     "Your focus this week is creating one simple process that makes the business easier to repeat, not fixing everything at once."],
+    ["Based on how you rated your business, a lot of activity may currently be improvised rather than repeatable. That is a completely normal place to start from.",
+     "This may mean the difference between being active and being prepared is the real story here — you are likely showing up, just without a system underneath it yet.",
+     "One thing worth examining is which single area, if it had a clear process, would make the rest of the week feel less chaotic."],
+    ["Your answers suggest the business is currently running mostly on instinct and good intentions. Instincts got you this far — a process will take you further.",
+     "This is not a sign that something is broken. It usually means visibility has been growing faster than the systems behind it.",
+     "The goal is not to overhaul everything. It is to pick one repeatable habit and let it hold some of the weight your memory has been carrying."],
+    ["Being active on Facebook and being ready for the business it could bring you are two different things, and your answers suggest they have not quite lined up yet.",
+     "This may mean you are posting, showing up, and trying — without a clear system underneath any of it yet. That gap is fixable, and it usually closes with one process at a time.",
+     "One thing worth examining this week: what is the single most repeated task in your business that still lives only in your head?"]
+   ],
+   followReasons:[
+    "You do not need to fix the entire business this week. You need clearer steps and someone helping you see what to work on first. Follow The Elite Vault for practical lessons that turn the ideas in your head into processes you can actually use.",
+    "Follow The Elite Vault to learn how content, relationships, systems, and customer paths actually work together — one practical piece at a time, without the overwhelm of fixing everything at once.",
+    "This is the stage where following the right lessons matters most. The Elite Vault focuses on one practical improvement at a time — starting with turning up your intention, not just your posting frequency.",
+    "Follow The Elite Vault for the kind of no-overwhelm guidance that helps you stop improvising on {focus} and start building a repeatable process instead.",
+    "Follow The Elite Vault to learn how to create the kind of Facebook presence — content, spaces, relationships, and simple systems — that supports the business you are actually trying to build."
+   ]},
+  {key:"momentum",name:"Building Momentum",playful:"The Pieces Are Coming Together",min:8,max:10,
+   openings:[
+    ["You have useful pieces in place. The challenge is making them work together consistently.",
+     "This is often the stage where the plan exists, but it is spread across a notebook, a few screenshots, and something you were definitely going to remember. 😂 Your answers suggest real progress — just not fully connected yet.",
+     "Your next level comes from connecting what already works, not adding something new on top of it."],
+    ["Based on how you rated your business, several areas may be working on their own without quite supporting each other yet.",
+     "This may mean the business looks a little different depending on the day — strong some weeks, more improvised on others.",
+     "One thing worth examining is whether your content, your follow-up, and your tracking are pointing at the same goal."],
+    ["Your answers suggest you have moved past pure improvising — real pieces of a process exist. The next challenge is consistency.",
+     "This is the stage where a business can look busy and organized from the outside while a few key habits are still held together loosely behind the scenes.",
+     "The move now is not more content or more networking. It is connecting the pieces you already have so they reinforce each other."],
+    ["You are past the 'figuring it out from scratch' stage. Your answers suggest real habits exist — they may just not be talking to each other yet.",
+     "This may mean your content, your relationships, and your systems are each doing some of the work, but not always the same work.",
+     "One thing worth examining: which one connection — content to offer, follow-up to inquiry, tracking to strategy — would make the biggest difference if you tightened it this week?"]
+   ],
+   followReasons:[
+    "You already have useful pieces. The next challenge is getting them to work together consistently. Follow The Elite Vault for practical ways to connect your content, relationships, systems, and next steps without rebuilding everything from scratch.",
+    "Follow The Elite Vault for lessons on turning inconsistency into repeatable habits — especially around {focus}, which is where your business may currently feel the most scattered.",
+    "This is the stage where a few connected systems make a bigger difference than a dozen new ideas. Follow The Elite Vault for exactly that kind of practical, connect-the-dots guidance.",
+    "Follow The Elite Vault to learn how to use simple systems and AI more intentionally, so you stop starting over every time something changes.",
+    "You are close to something that runs smoothly. Follow The Elite Vault for the lessons that turn scattered pieces — content, relationships, tracking — into one steady system."
+   ]},
+  {key:"nearly",name:"Nearly R.E.A.D.Y.",playful:"Nearly R.E.A.D.Y.",min:11,max:13,
+   openings:[
+    ["You have a genuinely useful foundation. One or two gaps may still be slowing things down more than they need to.",
+     "This is where small, specific fixes matter more than big new ideas. Your answers suggest most of the business is working — the remaining friction is worth fixing precisely because everything else is already pulling its weight.",
+     "The focus here is refinement and clearer tracking, not an overhaul."],
+    ["Based on how you rated your business, you are closer to a fully connected system than the score might make it feel.",
+     "This may mean one specific area — not the whole business — is quietly costing you customers, referrals, or peace of mind.",
+     "One thing worth examining is whether the gap is about clarity, tracking, or follow-through, since the fix looks different for each."],
+    ["Your answers suggest a strong working foundation with one or two areas still needing clearer systems or more consistency.",
+     "This may mean small changes — not new tactics — are what move attention into action from here.",
+     "The move now is refinement: tighten the loosest link, then re-check rather than rebuilding what already works."],
+    ["You are not far from a business that feels much easier to grow. Your answers suggest most of the pieces are genuinely working.",
+     "This may mean the remaining gap is smaller than it feels — often just tracking, follow-up, or one unclear next step.",
+     "One thing worth examining: if you fixed only the lowest-scoring area this week, what would likely change first?"]
+   ],
+   followReasons:[
+    "You are not far from having a business that feels much easier to grow. Follow The Elite Vault for practical lessons that help you tighten the gap between visibility, trust, systems, and real business movement.",
+    "Follow The Elite Vault for lessons on improving tracking and follow-up around {focus} — often the exact thing standing between 'nearly there' and 'actually there.'",
+    "This is the stage where small, specific fixes matter more than big new ideas. Follow The Elite Vault for that kind of precise, practical guidance.",
+    "Follow The Elite Vault to learn how to strengthen your customer path and content without overhauling a business that is already mostly working.",
+    "You are close enough that a couple of intentional fixes make a real difference. Follow The Elite Vault for the specific kind of help that closes gaps like these."
+   ]},
+  {key:"ready",name:"R.E.A.D.Y. to Grow",playful:"R.E.A.D.Y. to Grow",min:14,max:15,
+   openings:[
+    ["Your answers suggest you have clear processes in most or all five areas. The focus now is refinement, measurement, and protecting what already works.",
+     "Based on how you rated your business, the foundation is working. The goal from here is refining what already works instead of adding random tactics because somebody online said you need another funnel. 😂",
+     "This may mean more tactics are not automatically needed — more intention usually is."],
+    ["Based on how you rated your business, you are in a strong position to grow without creating unnecessary chaos.",
+     "This may mean the next gains come from aligned visibility, stronger relationships, and consistent tracking — not from rebuilding the foundation.",
+     "One thing worth examining is what would happen if you simply protected and repeated what is already working, instead of adding something new."],
+    ["Your answers suggest clear systems across most of the business. That is not common, and it is worth recognizing.",
+     "This may mean your next level of growth comes from refinement and measurement rather than more content or more platforms.",
+     "The move now is intentional maintenance: keep the systems that work visible and reviewed as the business grows."],
+    ["You have built a business that can handle real attention. Your answers suggest the foundation is doing its job.",
+     "This may mean the highest-leverage move is not new — it is protecting, measuring, and slightly refining what is already working.",
+     "One thing worth examining: which single system, if it slipped, would you notice the fastest — and is it getting the maintenance it deserves?"]
+   ],
+   followReasons:[
+    "Your foundation is working. Now the goal is to refine, measure, and grow without filling your business with random tactics. Follow The Elite Vault for practical strategy that helps strong businesses stay intentional as visibility increases.",
+    "Follow The Elite Vault for lessons on growing visibility strategically and strengthening relationships and collaborations — the next layer once the basics, including {focus}, are solid.",
+    "You are past the foundation stage. Follow The Elite Vault for practical guidance on using AI and simple systems without adding unnecessary complexity.",
+    "Follow The Elite Vault for lessons on measurement and refinement — the unglamorous work that keeps a strong business strong as it grows.",
+    "This is the stage where protecting what works matters as much as building something new. Follow The Elite Vault for practical ways to do both at once."
+   ]}
+];
+
+/* ====================== CATEGORY BANKS ======================
+   R, A, D unchanged. E and Y augmented with destination/tracking
+   language to match the updated Q2 and Q5 wording. */
+const CATS = {
+  R:{name:"Reach",
+    measures:"Whether you have a clear way to tell if the people finding and engaging with your business are actually a good fit — not just an audience.",
+    low:[
+     "Your answer suggests this area may currently depend on guesswork — engagement is probably happening, but sorting the aligned people from the rest may not be.",
+     "This may be happening informally rather than through a clear process. A bigger audience is not automatically a better audience.",
+     "Based on how you rated this, you may not yet have a simple way to tell whether the people arriving are realistic customers, collaborators, or referral partners.",
+     "One thing worth checking is whether you are currently measuring audience fit at all, or just watching the numbers go up."
+    ],
+    mid:[
+     "Your answer suggests you have some sense of who is engaging, but it may not be organized or consistent enough to rely on.",
+     "This may mean the evaluation happens in your head rather than through any repeatable method.",
+     "Based on how you rated this, the pieces are there — a simple tracking habit would likely turn this into a clear process.",
+     "One thing worth checking is whether you could explain, right now, exactly how you decide someone is a good fit."
+    ],
+    high:[
+     "Your answer suggests you have a clear and usable way to evaluate whether the people engaging with your business are a good fit.",
+     "This appears to be a working strength — you likely know the difference between an audience and an aligned one.",
+     "Based on how you rated this, the next step is consistency, tracking, and refinement rather than building something new.",
+     "One thing worth checking is whether this process is documented anywhere, in case you ever need to hand part of it off."
+    ],
+    stories:[
+     "I used to think posting more was the answer. It was not. I was creating more and connecting less — and I had no real way to tell who any of it was actually reaching.",
+     "One thing I learned while growing my own business: a growing number and a growing business are not the same thing. I did not have a process to tell the difference for a long time.",
+     "For a while, I judged reach by how many people saw something, not by whether those people could ever become customers.",
+     "I once celebrated a follower milestone, then realized I had no simple way to check whether any of those people were actually a fit."
+    ],
+    humor:[
+     "The algorithm cannot be your full business-development department. 😂",
+     "Random followers are not a retirement plan.",
+     "A bigger audience is not automatically a better audience.",
+     "More people watching does not mean more people moving."
+    ],
+    celebrate:[
+     "Reach may be a real strength for you — you likely have a working sense of who is actually a good fit.",
+     "Your answer suggests you are not just collecting an audience. You are evaluating it.",
+     "This looks like a clear process, not a guess. Keep it consistent as the audience grows."
+    ],
+    caution:[
+     "Without a clear way to check audience fit, it is hard to know whether reach is actually helping the business.",
+     "Unaligned attention feels productive and converts to almost nothing — worth checking honestly.",
+     "A growing audience with no evaluation process can quietly hide whether real growth is happening at all."
+    ]},
+  E:{name:"Experience",
+    measures:"Whether you have a clear, repeatable path — including a findable offer and a matching destination — that helps interested people understand how you help and what to do next.",
+    low:[
+     "Your answer suggests interested people may not have a clear path to follow right now — they may be left to search, guess, or message you for basics.",
+     "This may be happening informally rather than through any documented next step.",
+     "Based on how you rated this, the path from curious to informed may currently live only in conversations, not in a repeatable process.",
+     "One thing worth checking is what the very first thing is that an interested person should do — and whether that is written down anywhere.",
+     "Your answer suggests an interested person might not have an obvious destination to go to after clicking — no landing page, offer page, or clear next step waiting for them.",
+     "One thing worth checking is whether the page someone reaches after clicking actually matches what the post promised."
+    ],
+    mid:[
+     "Your answer suggests a path exists, but it may not be consistent or fully repeatable yet.",
+     "This may mean the process makes sense in your head but would be hard for someone else to follow exactly.",
+     "Based on how you rated this, a little more structure would likely turn this into something reliably repeatable.",
+     "One thing worth checking is whether the path looks the same for every new person, or changes depending on the day.",
+     "Based on how you rated this, a destination may exist, but it may not always match what the content promised on the way in."
+    ],
+    high:[
+     "Your answer suggests you have a clear, repeatable path that helps interested people understand how you help and what to do next.",
+     "This appears to be a working strength — the guesswork has likely been removed for most visitors.",
+     "Based on how you rated this, the next step is testing and refining rather than building something new.",
+     "One thing worth checking is whether this path still holds up as you add new offers or content.",
+     "Based on how you rated this, your links and destinations likely match what was promised, and the next step is keeping that consistent as offers change."
+    ],
+    stories:[
+     "I once had a bio link that led to a page about a completely different offer than the post that sent people there. Been there. Fixed it in an hour.",
+     "I used to send interested people through three steps that made sense only in my head. Cutting it to one, written-down step changed everything.",
+     "I learned the hard way that a slow, undocumented reply reads like a no. Now the first response is written once and ready always.",
+     "For months, people had to message me to find out my prices and my process. I thought it started conversation. Mostly it started silence.",
+     "I once sent a great post to a landing page for an offer I had already closed. The click worked. The destination did not."
+    ],
+    humor:[
+     "Customers should not have to complete an escape room to buy from you. 🗝️",
+     "Three broken links and a 'DM me' is not a customer journey.",
+     "Nobody should need a scavenger hunt to give you money.",
+     "Working with you should not feel like a side quest.",
+     "A great hook and a dead-end page are a heartbreaking combination."
+    ],
+    celebrate:[
+     "Experience may be a real strength for you — interested people likely have a clear path to follow.",
+     "Your answer suggests the path is documented, not just known in your head. That is what makes it repeatable.",
+     "This looks like a business that respects people's time. Keep testing it as you grow."
+    ],
+    caution:[
+     "Without a documented next step, interested people rarely ask — they simply leave.",
+     "A path that only exists in your head cannot be repeated consistently, even by you on a busy day.",
+     "A confusing next step can undo everything good content and real trust already built."
+    ]},
+  A:{name:"Authority",
+    measures:"Whether you consistently and intentionally use your content, experience, results, or proof to give people a clear reason to trust you.",
+    low:[
+     "Your answer suggests trust-building may currently be happening occasionally rather than as a consistent practice.",
+     "This may be happening informally — good things may be occurring in the business without ever becoming visible proof.",
+     "Based on how you rated this, the gap may not be your expertise, but a clear process for showing it.",
+     "One thing worth checking is whether you have any repeatable way to turn a good outcome into visible proof."
+    ],
+    mid:[
+     "Your answer suggests you share proof sometimes, but it may not be a consistent or repeatable habit yet.",
+     "This may mean the value is real but under-displayed rather than under-built.",
+     "Based on how you rated this, a simple, repeatable habit — like a monthly proof post — would likely close the gap.",
+     "One thing worth checking is how long it has been since you last shared a specific result or lesson."
+    ],
+    high:[
+     "Your answer suggests you consistently and intentionally use content, experience, and proof to build trust.",
+     "This appears to be a working strength — your value is likely visible, not just real.",
+     "Based on how you rated this, the next step is deepening it — more original stories, sharper proof, not more volume.",
+     "One thing worth checking is whether this habit would survive a busy month, or quietly slip."
+    ],
+    stories:[
+     "I used to hide my results because sharing them felt like bragging. Invisible proof helps nobody — especially not the person trying to decide.",
+     "I taught for months without showing outcomes. People said 'great content' and bought nothing. One case study changed the whole conversation.",
+     "I thought people would connect the dots between my knowledge and my ability to actually help them. They did not.",
+     "I forgot to collect testimonials for far longer than I would like to admit. The kind words were happening — I just was not capturing them."
+    ],
+    humor:[
+     "People cannot read your résumé through the screen. 📄",
+     "Expertise hiding in your drafts folder helps nobody.",
+     "Quiet confidence is fine. Invisible proof is a problem.",
+     "Your audience should not have to guess whether you know what you are doing."
+    ],
+    celebrate:[
+     "Authority may be a real strength for you — you likely have a consistent habit of making your value visible.",
+     "Your answer suggests trust-building is a process for you, not an occasional afterthought.",
+     "This looks like earned, visible trust. Keep the habit going as you grow."
+    ],
+    caution:[
+     "Without a consistent process for showing proof, even great work can stay invisible to the people deciding whether to trust you.",
+     "People can enjoy your content and still not trust you enough to act. That gap is where interest quietly stalls.",
+     "A good outcome that never becomes visible proof does no work for the next decision someone makes about you."
+    ]},
+  D:{name:"Delivery",
+    measures:"Whether you have clear systems for handling inquiries, following up, serving customers, and managing new opportunities without becoming overwhelmed.",
+    low:[
+     "Your answer suggests a sudden increase in demand could currently create real stress rather than momentum.",
+     "This may be happening informally — inquiries and follow-up may currently depend on memory more than any written process.",
+     "Based on how you rated this, systems and structure may be the thing worth building before chasing more visibility.",
+     "One thing worth checking is what would happen this week if five new customers arrived at once."
+    ],
+    mid:[
+     "Your answer suggests some systems exist, but they may still depend heavily on you remembering what happens next.",
+     "This may mean the process is half-built: some of it documented, some of it still living in your head.",
+     "Based on how you rated this, a bit more structure would likely make this reliable even on a busy week.",
+     "One thing worth checking is whether this process would still work if you were out sick for three days."
+    ],
+    high:[
+     "Your answer suggests you have clear systems for handling demand without becoming overwhelmed.",
+     "This appears to be a working strength — growth is likely to feel like momentum rather than chaos.",
+     "Based on how you rated this, the next step is protecting these systems as the business expands, not rebuilding them.",
+     "One thing worth checking is whether these systems are documented well enough that someone else could run them."
+    ],
+    stories:[
+     "My business once lived in multiple notebooks, a notes app, and my memory. I called it a system. It was a prayer. 😅",
+     "I used to rewrite the same welcome message from scratch for every new customer. One saved template gave me back hours I did not know I was losing.",
+     "I used to make promises to myself with no deadline and no witness. They stayed promises.",
+     "I learned that being busy and being ready are not the same thing — usually right around the time a follow-up I 'would definitely remember' did not happen."
+    ],
+    humor:[
+     "Your brain should not be the reminder app, the CRM, and the accountability partner. 🧠",
+     "A goal written in a notebook and never revisited is just decorative.",
+     "Motivation has office hours.",
+     "'I will get to it' is not a project-management system."
+    ],
+    celebrate:[
+     "Delivery may be a real strength for you — you could likely handle more demand without losing your footing.",
+     "Your answer suggests the essential systems are in place. That is what lets growth feel like relief instead of chaos.",
+     "This looks like a business that is quietly ready. Protect it with regular reviews."
+    ],
+    caution:[
+     "Your business may be able to attract more customers before it is fully prepared to serve them smoothly.",
+     "Systems that live only in memory do not scale — they just get heavier.",
+     "Being busy and being ready are not the same thing. A burst of growth would test the difference."
+    ]},
+  Y:{name:"Yes",
+    measures:"Whether you have a clear way to track whether visibility and engagement are actually leading people to your offers, landing pages, and other meaningful business results — not just reactions.",
+    low:[
+     "Your answer suggests you may not currently have a clear way to tell whether visibility is turning into real business movement.",
+     "This may be happening informally — inquiries or sales may be noticed after the fact rather than tracked on purpose.",
+     "Based on how you rated this, tracking may be the thing worth building before worrying about the offer itself.",
+     "One thing worth checking is whether you could say, right now, how many inquiries came in last month.",
+     "Your answer suggests clicks, messages, and inquiries may not currently be tracked separately from likes and comments."
+    ],
+    mid:[
+     "Your answer suggests some tracking happens, but it may be inconsistent or incomplete.",
+     "This may mean you notice results when they are obvious, but miss the quieter ones.",
+     "Based on how you rated this, one simple tracking habit could turn this into a clear, repeatable process.",
+     "One thing worth checking is whether you track outcomes the same way every time, or only when you remember to.",
+     "Based on how you rated this, you may notice big, obvious results but miss the quieter clicks and messages that also matter."
+    ],
+    high:[
+     "Your answer suggests you have a clear way to track whether visibility is turning into real business results.",
+     "This appears to be a working strength — you likely know what is actually converting, not just what feels active.",
+     "Based on how you rated this, the next step is refining what you track and acting faster on it.",
+     "One thing worth checking is whether this tracking habit is documented well enough to stay consistent.",
+     "Based on how you rated this, you likely track clicks and messages as closely as reactions, which is a genuinely useful habit."
+    ],
+    stories:[
+     "I used to end valuable posts with... nothing. Just vibes. People enjoyed the content and had no idea I sold anything.",
+     "For a while I was afraid mentioning my offer would annoy people. The people it 'annoyed' were never buying anyway.",
+     "Someone once told me they did not know they could actually hire me. I had been posting for months. That one stung.",
+     "I used to check my follower count like it was revenue. Comparing it honestly to actual inquiries told me everything I needed to know.",
+     "I used to celebrate a post 'doing well' based on likes alone, without ever checking whether it sent anyone to the offer."
+    ],
+    humor:[
+     "Likes are encouraging, but they do not pay invoices.",
+     "A heart reaction is not a deposit. 💗",
+     "Followers cannot choose a next step that was never presented.",
+     "The comment section is active — but is the business moving?",
+     "Reactions are the appetizer. Clicks and messages are the meal."
+    ],
+    celebrate:[
+     "Yes may be a real strength for you — you likely have a clear sense of what visibility is actually producing.",
+     "Your answer suggests attention is being tracked, not just hoped about. That is the bridge most businesses never quite finish building.",
+     "This looks like a business that measures what matters, not just what feels good. Keep testing what is converting best."
+    ],
+    caution:[
+     "Without a clear way to track results, it is hard to tell whether visibility is helping the business or just feeling busy.",
+     "Every strong piece of content without a way to measure its result is a data point you are losing.",
+     "You cannot improve what you are not tracking, even if it is quietly working."
+    ]}
+};
+
+/* ====================== "WHAT MAY ALREADY BE WORKING" NOTES ====================== */
+const STRENGTH_NOTES={
+  R:["This likely shows up as attracting people who are a realistic fit — not just a bigger crowd, but a more aligned one. Keep protecting that alignment as your reach grows.",
+     "You are probably not just gaining followers — you have some real sense of whether those followers could become customers, collaborators, or referral partners. That distinction is worth protecting."],
+  E:["This likely shows up as interested people knowing what to do next, and finding what they expect when they click. Keep that path visible as you add new content or offers.",
+     "You probably make the next step easy to understand, which is one of the harder things to get right on Facebook. Protect that clarity as the business grows."],
+  A:["This likely shows up as sharing proof and useful experience often enough that people have real reasons to trust you. Keep making that value visible, not just true.",
+     "You are probably backing up your content with real experience or results, not just tips. That visible proof is worth continuing exactly as you have been."],
+  D:["This likely shows up as following up consistently, even when things get busy. That reliability is quietly doing a lot of work for the business.",
+     "You probably have a repeatable way of handling inquiries and follow-up, which means growth is less likely to catch you off guard."],
+  Y:["This likely shows up as tracking meaningful business movement instead of just watching likes and comments. That habit is what lets you know what is actually working.",
+     "You probably have some sense of whether your visibility is turning into inquiries or sales, not just activity. Keep that habit — it is more useful than it feels."]
+};
+const TIE_STRENGTH_NOTE="More than one area may be working well together right now, which is worth acknowledging honestly rather than forcing one to stand out as uniquely strongest.";
+
+/* ====================== "WHAT MAY BE SLOWING YOUR GROWTH" PAIN POINTS ====================== */
+const PAIN_POINTS={
+  R:["Posting consistently without knowing who the content is actually attracting.",
+     "Gaining followers who are not realistic customers, collaborators, or referral partners.",
+     "Networking only when you need something, rather than building relationships along the way."],
+  E:["Giving useful information without a clear next step attached to it.",
+     "Having links or pages that do not connect to each other.",
+     "Building only inside other people's groups or communities, without an owned space or clear destination of your own.",
+     "Having an offer or landing page that is difficult for interested people to find."],
+  A:["Sharing helpful content without also sharing the proof or experience behind it.",
+     "Being consistent with posting, but not with demonstrating why people should trust you specifically."],
+  D:["Depending on memory for inquiries and follow-up instead of a written process.",
+     "Having opportunities occasionally slip through the cracks between an inquiry and a completed next step."],
+  Y:["Hiding or rarely mentioning the primary offer, even when the content is strong.",
+     "Receiving comments that do not turn into business conversations.",
+     "Receiving interest without tracking where it came from, or having no way to compare engagement with actual business movement.",
+     "Tracking reactions and comments while not tracking clicks, messages, inquiries, or purchases."]
+};
+const TIE_FOCUS_NOTE="More than one area may currently be slowing growth by a similar amount — worth treating as a shared starting point rather than a single dramatic weak spot.";
+
+/* ====================== "WHAT THIS MAY LOOK LIKE ON FACEBOOK" OBSERVATIONS ====================== */
+const OBSERVATIONS={
+  R:["You may be posting often without checking whether the right audience is responding.",
+     "One pattern worth checking is whether recent engagement is coming from people who are a realistic fit for the business.",
+     "Networking may be happening mostly when you need something, rather than as an ongoing relationship."],
+  E:["Interested people may be expected to figure out the offer or next step largely on their own.",
+     "Your content, links, and pages may be spread across different spaces in a way that makes them harder to connect.",
+     "You may be building mostly inside other people's groups or communities, without an owned space of your own.",
+     "An offer may currently be difficult for an interested person to locate.",
+     "A link may lead to a general page rather than the specific destination the post promised.",
+     "People may be asked to click without being told what they will find on the other side.",
+     "Interested people may be expected to ask for the next step instead of being shown it."],
+  A:["You may be creating helpful content without always connecting it to a business goal or piece of proof.",
+     "Your content may sound useful without always making your specific experience or results visible.",
+     "Content may be building trust without pointing to a clear destination once someone is convinced."],
+  D:["Following up may happen inconsistently, depending on how busy things are that week.",
+     "Systems may be ready, but not yet reaching enough of the right, aligned people.",
+     "Inquiries and follow-up may depend on memory rather than a documented process."],
+  Y:["You may be receiving engagement without it turning into deeper business conversations.",
+     "Attention may be growing without a clear way to measure what happens afterward.",
+     "Reactions and comments may be tracked while clicks, messages, and inquiries are not."]
+};
+const OBSERVATIONS_GENERIC=[
+  "Your five areas may currently be developing at a similar pace, without one obvious place to start.",
+  "One pattern worth checking across the board is whether Facebook activity is being tracked as business movement, or just watched as engagement."
+];
+
+/* ====================== WEEKLY FOCUS ======================
+   Pools of {what,why,watch} recommendations per category, selected
+   with the same deterministic picker used elsewhere. R, A, D keep
+   their original single recommendation. E and Y are expanded with
+   destination- and tracking-specific options. */
+const WEEKLY_FOCUS={
+  R:[{what:"Review the last 20 people who followed or meaningfully engaged with your business, and sort them into potential customer, collaborator, referral partner, valuable connection, or general audience.",
+     why:"This helps you determine whether audience growth is supporting the business or only increasing the visible number.",
+     watch:"Where the most aligned people originally found the business."}],
+  E:[
+    {what:"Click every visible link on your Facebook page and recent posts as though you are a new visitor, and confirm that each one leads to the exact destination promised.",
+     why:"A mismatched or broken link can quietly undo the trust your content just built.",
+     watch:"Any link that leads somewhere different than what the post described."},
+    {what:"Choose one primary offer and create one clear place — a page, a pinned post, or a simple link — where people can learn about it.",
+     why:"When there are several competing offers or no offer page at all, interested people are left guessing what to do.",
+     watch:"Whether that one destination clearly explains who it is for, what it helps with, and what action to take."},
+    {what:"Ask someone unfamiliar with the business to click your main Facebook link and tell you what they believe they should do next.",
+     why:"You already know the business, so you may automatically fill in information a new visitor cannot see.",
+     watch:"Anything the person hesitates on or has to guess."},
+    {what:"Compare the wording in a recent call-to-action with the wording on the page it leads to, and make sure the destination continues the same conversation as the post.",
+     why:"A disconnect between the promise in a post and the page it leads to is one of the most common places interested people quietly leave.",
+     watch:"Whether the destination page repeats or contradicts what the post said."}
+  ],
+  A:[{what:"Review your last five business-related posts and identify which ones clearly demonstrate experience, proof, a useful process, a result, or an original lesson.",
+     why:"Helpful content can attract attention, but visible experience and proof are what help people trust the business.",
+     watch:"Whether the content sounds useful but could have been posted by almost anyone."}],
+  D:[{what:"Write down the steps you currently use when someone sends an inquiry — initial response, information sent, follow-up, payment or registration, and the next customer step.",
+     why:"A process that only lives in memory becomes harder to repeat when more opportunities arrive.",
+     watch:"Where information, people, or follow-ups could get lost."}],
+  Y:[
+    {what:"Track how many people click your primary link over the next seven days.",
+     why:"Clicks are a more honest measure of interest than reactions or comments alone.",
+     watch:"How that click count compares to the messages, inquiries, or bookings that follow."},
+    {what:"Compare this week's clicks with messages, inquiries, registrations, bookings, or purchases.",
+     why:"This is the clearest way to see whether visibility is turning into business movement, not just activity.",
+     watch:"Where the gap is biggest — getting the click, or turning the click into a conversation."},
+    {what:"Ask your next five inquiries where they found the business.",
+     why:"This tells you which content or space is actually producing real business movement, not just engagement.",
+     watch:"Whether the source matches where you are spending the most time and energy."},
+    {what:"Review your last 10 posts and label each one as no clear action, engagement action, relationship action, or business action.",
+     why:"This shows whether your content is only creating activity or also guiding people toward meaningful business movement.",
+     watch:"How many posts naturally connect to an inquiry, offer, resource, booking, registration, collaboration, or referral."}
+  ]
+};
+const BALANCED_FOCUS={
+  1:{what:"Pick the one R.E.A.D.Y. area that feels most urgent right now and create one simple process for it this week.",
+     why:"When everything is developing at a similar level, one clear process is more useful than five vague intentions.",
+     watch:"Whether that one process is still holding up by the end of the week."},
+  2:{what:"Choose one process that currently lives somewhere between your brain, notes, and screenshots, and fully organize and document it.",
+     why:"Turning one half-built process into a finished one usually reveals what the next area needs too.",
+     watch:"Whether the documented version actually matches what you do in practice."},
+  3:{what:"Choose one already-clear process and spend this week measuring and refining it rather than building something new.",
+     why:"With everything already at a working level, refinement is likely to move the business further than new tactics.",
+     watch:"What the numbers say about that process after a week of closer attention."}
+};
+
+/* ====================== CROSS-CATEGORY INSIGHT (unchanged logic) ====================== */
+const isStrong=v=>v===3, isWeak=v=>v===1;
+const CROSS=[
+  {id:"reachYes",test:s=>isStrong(s.R)&&isWeak(s.Y),title:"Attention Without Enough Movement",
+   texts:[()=>"You may have people finding and engaging with the business without a clear way to track whether that attention is producing meaningful results.",
+    ()=>"The hard part — getting found — may already have a process behind it. Tracking what happens after may be the missing piece.",
+    ()=>"Strong reach with untracked results often means the business is working harder than the owner can currently see."]},
+  {id:"authExp",test:s=>isStrong(s.A)&&isWeak(s.E),title:"Trusted, but the Path May Be Unclear",
+   texts:[()=>"You may be building trust consistently without making the next step — or the destination waiting on the other side of a click — easy to understand.",
+    ()=>"People may believe in what you do, and still not have a clear path or destination to go to next.",
+    ()=>"When trust has a process but the path does not, the business may be losing convinced people at the very last step."]},
+  {id:"authYes",test:s=>isStrong(s.A)&&isWeak(s.Y),title:"Trusted, but Not Fully Tracked",
+   texts:[()=>"People may trust the business, but there may not be a clear way to measure whether that trust is turning into action.",
+    ()=>"Trust-building may be working. Measuring whether it converts may be the piece still missing.",
+    ()=>"Warm trust without tracking makes it hard to know whether the belief people have is actually moving the business."]},
+  {id:"reachDel",test:s=>isStrong(s.R)&&isWeak(s.D),title:"Attention Could Outrun the Process",
+   texts:[()=>"The business may attract interest faster than it can consistently follow up or serve people right now.",
+    ()=>"A working reach process without a matching delivery process can turn a good week into a stressful one fast.",
+    ()=>"Strong reach with weak delivery can turn a good problem — attention — into real stress if the process is not ready."]},
+  {id:"delReach",test:s=>isStrong(s.D)&&isWeak(s.R),title:"Ready to Serve, but Audience Quality Needs Attention",
+   texts:[()=>"The business may have useful systems but no clear process for determining whether the right people are finding it.",
+    ()=>"You may be genuinely ready to serve well — the next question is whether there is a clear way to check who is actually arriving.",
+    ()=>"Strong delivery with an unclear audience-fit process can look like a well-run business with a quiet front door."]},
+  {id:"expAuth",test:s=>isStrong(s.E)&&isWeak(s.A),title:"Clear Path, Limited Visible Trust",
+   texts:[()=>"The customer journey and destination may be clear, but the business may need stronger proof or more visible expertise alongside it.",
+    ()=>"A documented next step is valuable — pairing it with a consistent trust-building habit may be what moves people to actually take it.",
+    ()=>"A clear path without much visible trust may convert the already-convinced and lose everyone else."]},
+  {id:"reachExp",test:s=>isStrong(s.R)&&isWeak(s.E),title:"Found, but Not Fully Guided",
+   texts:[()=>"The right people may be arriving, but there may not be a clear path or destination helping them understand the offer or next step.",
+    ()=>"A working reach process without a clear experience process can mean people arrive and then have to guess what happens next, or where to click.",
+    ()=>"Strong reach with an unclear path can mean the audience-finding process is outperforming the guidance and destinations behind it."]},
+  {id:"allStrong",test:s=>CAT_ORDER.every(k=>isStrong(s[k])),title:"Clear Across All Five",
+   texts:[()=>"You have a clear process in every R.E.A.D.Y. area. The next step is measuring, refining, and maintaining those processes.",
+    ()=>"With all five areas showing a clear process, the work now is protecting and refining what already works rather than rebuilding it.",
+    ()=>"This is a rare, complete result. Keep measuring so these processes stay this clear as the business grows."]},
+  {id:"balanced",test:s=>{const v=CAT_ORDER.map(k=>s[k]);return v.every(x=>x===v[0]);},title:"A Balanced Business",
+   texts:[(s,c)=>"The business is developing at a similar level across all five areas. "+c.weakName+" is a reasonable place to start, without treating it as a crisis.",
+    (s,c)=>"No single area is dramatically ahead of the others. Steady, general progress will likely move the needle more than fixing any one 'weak spot.'",
+    (s,c)=>"Your five areas are developing evenly. That is a fine place to be — pick one, like "+c.weakName+", and build from there."]}
+];
+/* Cross-category patterns that imply "attention without a clear destination" —
+   used, alongside raw Experience/Yes scores, to decide whether to show the
+   landing-page support card. */
+const LANDING_TRIGGER_CROSS_IDS=["reachExp","authExp","reachYes"];
+
+/* ====================== MISC BANKS ====================== */
+const CATEGORY_REFLECTIONS={
+  R:["Of the people currently engaging with your business, how many could you confidently sort into a category — customer, collaborator, referral partner, or general audience?",
+     "If you had to explain your process for judging audience fit to someone else, could you?"],
+  E:["What is the very first thing someone should do after becoming interested in your business — and is that written down anywhere?",
+     "Where do you think an interested person might quietly stall out before ever reaching your offer?"],
+  A:["When did you last turn a real result or lesson into something visible, on purpose?",
+     "If someone asked why they should trust you, what would your content answer without you in the room?"],
+  D:["If five new customers arrived this week, which part of your business would feel the strain first?",
+     "Which part of your business currently depends too heavily on you personally remembering everything?"],
+  Y:["Could you say, right now, how many real inquiries or sales came from your visibility last month?",
+     "In the last month, how many followers turned into an actual inquiry, customer, or referral — and do you honestly know?"]
+};
+const BALANCED_REFLECTION="Which of the five R.E.A.D.Y. areas would you build a clear process for first, even though they are all developing evenly?";
+const CONTENT_GUIDE_COPY=[
+  "Your content should do more than keep your page active. The Simplified Content Guide can help you decide what to post, why you are posting it, and what action each post should support.",
+  "Your content should do more than keep your page active. The Simplified Content Guide can help you connect what you share to an actual business goal, instead of posting just to stay visible.",
+  "Your content should do more than keep your page active. The Simplified Content Guide can help you choose the role of each post, write clearer calls to action, and turn ideas into content you can actually use.",
+  "Your content should do more than keep your page active. The Simplified Content Guide can help you use simple prompts to plan purposeful posts, so every piece of content has a job to do."
+];
+const LANDING_CARD_COPY="Your content can get people interested, but they still need a clear place to learn more, understand your offer, or take the next step. A focused landing page can help connect the message in your content to the action you want people to take.";
+
+/* ====================== SELECTION ENGINE ====================== */
+function hashStr(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function makePicker(seed){return function(arr,salt){if(!arr||!arr.length)return "";return arr[(seed+Math.imul(salt,2654435761)>>>0)%arr.length];};}
+
+/* ====================== SCORING (pure; scoring math unchanged) ====================== */
+function computeResults(answers,nonce){
+  const scores={};
+  QUESTIONS.forEach(q=>{scores[q.cat]=answers[q.id];});
+  const total=CAT_ORDER.reduce((sum,k)=>sum+scores[k],0);
+  const pct=Math.round(((total-5)/10)*100);
+  const level=LEVELS.find(l=>total>=l.min&&total<=l.max)||LEVELS[0];
+
+  const maxV=Math.max(...CAT_ORDER.map(k=>scores[k]));
+  const minV=Math.min(...CAT_ORDER.map(k=>scores[k]));
+  const strongest=CAT_ORDER.filter(k=>scores[k]===maxV);
+  const weakest=CAT_ORDER.filter(k=>scores[k]===minV);
+  const allEqual=strongest.length===5;
+
+  const strongKey=strongest[0];
+  const weakKey=weakest[0];
+
+  const ctx={weakName:CATS[weakKey].name,strongName:CATS[strongKey].name};
+  const cross=(!allEqual)?(CROSS.find(c=>c.test(scores))||null):(scores.R===3?CROSS.find(c=>c.id==="allStrong"):CROSS.find(c=>c.id==="balanced"));
+
+  const seed=hashStr(JSON.stringify(answers)+"|"+nonce);
+  const pick=makePicker(seed);
+
+  const band=s=>s===1?"low":s===2?"mid":"high";
+  const catResults={};
+  CAT_ORDER.forEach((k,i)=>{
+    const c=CATS[k],s=scores[k];
+    catResults[k]={
+      key:k,name:c.name,score:s,band:band(s),
+      measures:c.measures,
+      meaning:pick(c[band(s)],10+i),
+      story:pick(c.stories,50+i),
+      humor:band(s)==="high"?"":pick(c.humor,70+i)
+    };
+  });
+
+  /* What may already be working */
+  const strengthNote=allEqual?TIE_STRENGTH_NOTE:(strongest.length>1?TIE_STRENGTH_NOTE:pick(STRENGTH_NOTES[strongKey],20));
+  const strengthCelebrate=allEqual?"":pick(CATS[strongKey].celebrate,3);
+
+  /* What may be slowing growth */
+  const focusCaution=allEqual?"":pick(CATS[weakKey].caution,4);
+  const focusPains=allEqual?[]:(weakest.length>1
+    ? weakest.slice(0,2).flatMap(k=>PAIN_POINTS[k].slice(0,1))
+    : PAIN_POINTS[weakKey].slice(0, Math.min(2,PAIN_POINTS[weakKey].length)));
+  const focusNote=allEqual?"":(weakest.length>1?TIE_FOCUS_NOTE:"");
+
+  /* What this may look like on Facebook (2-4 observations) */
+  let observations=[];
+  if(allEqual){
+    observations=OBSERVATIONS_GENERIC.slice();
+  }else{
+    const ranked=CAT_ORDER.slice().sort((a,b)=>scores[a]-scores[b]);
+    const lowCats=ranked.filter(k=>scores[k]<=2);
+    const source=lowCats.length?lowCats:ranked.slice(0,2);
+    source.forEach(k=>{ if(observations.length<4) observations.push(pick(OBSERVATIONS[k],80+CAT_ORDER.indexOf(k))); });
+    if(observations.length<2){
+      CAT_ORDER.forEach(k=>{ if(observations.length<2 && !source.includes(k)) observations.push(pick(OBSERVATIONS[k],80+CAT_ORDER.indexOf(k))); });
+    }
+  }
+  observations=observations.slice(0,4);
+
+  const weekly=allEqual?BALANCED_FOCUS[scores.R]:pick(WEEKLY_FOCUS[weakKey],40);
+  const reflection=allEqual?BALANCED_REFLECTION:pick(CATEGORY_REFLECTIONS[weakKey],5);
+
+  /* Landing-page support card: show when Experience or Yes is 1-2, or a
+     relevant cross-category pattern is present. Hard override: hide when
+     both Experience and Yes are a full 3. */
+  let showLanding = (scores.E<=2) || (scores.Y<=2) || (cross && LANDING_TRIGGER_CROSS_IDS.includes(cross.id));
+  if(scores.E===3 && scores.Y===3) showLanding=false;
+
+  return {
+    scores,perQ:Object.assign({},answers),total,pct,level,
+    strongest,weakest,strongKey,weakKey,allEqual,
+    cross,crossCtx:ctx,
+    crossText:cross?pick(cross.texts,6)(scores,ctx):"",
+    opening:pick(level.openings,1),
+    followReason:pick(level.followReasons,2).replace(/\{focus\}/g, allEqual?"the area you choose to strengthen next":CATS[weakKey].name),
+    contentGuideCopy:pick(CONTENT_GUIDE_COPY,7),
+    showLanding,landingCopy:LANDING_CARD_COPY,
+    strengthNote,strengthCelebrate,
+    focusCaution,focusPains,focusNote,
+    observations,
+    weekly,reflection,
+    catResults
+  };
+}
+/* __PURE_END__ */
+
+/* ====================== STATE & NAVIGATION ====================== */
+let userName="";
+let userEmail="";
+let marketingConsent="no";
+let qIndex=0;
+let answers={};
+let lastResult=null;
+let completionId=null;
+let submissionAttemptedFor=null;
+
+function go(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  const el=document.getElementById(id);
+  el.classList.remove("active");
+  void el.offsetWidth; /* restart animation */
+  el.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ====================== SESSION SAVE / RESUME ====================== */
+function saveSession(stage){
+  const payload={
+    schemaVersion:SCHEMA_VERSION,
+    stage:stage||"in_progress",
+    firstName:userName||"",
+    email:userEmail||"",
+    consent:marketingConsent||"no",
+    qIndex:qIndex,
+    answers:answers,
+    completionId:completionId,
+    ts:new Date().toISOString()
+  };
+  try{ localStorage.setItem(CONFIG.storageKey, JSON.stringify(payload)); }
+  catch(e){ /* private mode / storage unavailable — session resume simply unavailable */ }
+}
+function loadSession(){
+  try{
+    const raw=localStorage.getItem(CONFIG.storageKey);
+    if(!raw)return null;
+    const parsed=JSON.parse(raw);
+    if(!parsed || parsed.schemaVersion!==SCHEMA_VERSION) return null; /* incompatible/old data — ignored */
+    return parsed;
+  }catch(e){ return null; }
+}
+function clearSession(){
+  try{ localStorage.removeItem(CONFIG.storageKey); }catch(e){/* ignore */}
+}
+
+/* ====================== NAME / EMAIL VALIDATION ====================== */
+function setName(v){userName=(v||"").trim().replace(/[<>]/g,"").slice(0,30);}
+function isValidEmail(v){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v||"").trim());
+}
+function showFieldError(id,msg){
+  const el=document.getElementById(id);
+  el.textContent=msg; el.classList.add("show");
+}
+function hideFieldError(id){
+  const el=document.getElementById(id);
+  el.textContent=""; el.classList.remove("show");
+}
+function submitNameEmail(){
+  const nameVal=(document.getElementById("name-input").value||"").trim();
+  const emailVal=(document.getElementById("email-input").value||"").trim();
+  const consentChecked=document.getElementById("consent-input").checked;
+  let valid=true;
+  const nameInputEl=document.getElementById("name-input");
+  const emailInputEl=document.getElementById("email-input");
+  nameInputEl.classList.remove("invalid"); emailInputEl.classList.remove("invalid");
+  hideFieldError("name-error"); hideFieldError("email-error");
+
+  if(!nameVal){
+    showFieldError("name-error","Please enter your first name so we can personalize your result.");
+    nameInputEl.classList.add("invalid");
+    valid=false;
+  }
+  if(!emailVal || !isValidEmail(emailVal)){
+    showFieldError("email-error","Please enter a valid email address so your completed Business Check can be recorded.");
+    emailInputEl.classList.add("invalid");
+    valid=false;
+  }
+  if(!valid){
+    (nameVal?emailInputEl:nameInputEl).focus();
+    return;
+  }
+  setName(nameVal);
+  userEmail=emailVal;
+  marketingConsent=consentChecked?"yes":"no";
+  saveSession("in_progress");
+  go("s-how");
+}
+
+function startCheck(){
+  qIndex=0;answers={};hideError();
+  completionId=null; submissionAttemptedFor=null;
+  saveSession("in_progress");
+  renderQuestion();
+  go("s-question");
+}
+function hideError(){const e=document.getElementById("q-error");e.classList.remove("show");e.textContent="";}
+function showError(msg){const e=document.getElementById("q-error");e.textContent=msg;e.classList.add("show");}
+function renderQuestion(){
+  const q=QUESTIONS[qIndex];
+  document.getElementById("q-count").textContent="Question "+(qIndex+1)+" of 5";
+  document.getElementById("q-pct").textContent=Math.round(qIndex/5*100)+"%";
+  document.getElementById("q-progress").style.width=(qIndex/5*100)+"%";
+  document.getElementById("q-progressbar").setAttribute("aria-valuenow",Math.round(qIndex/5*100));
+  document.getElementById("q-statement").textContent=q.text;
+  const ref=document.getElementById("q-reflect");
+  ref.textContent=q.reflect||"";
+  ref.style.display=q.reflect?"block":"none";
+  const box=document.getElementById("score-btns");
+  box.innerHTML="";
+  RESPONSE_OPTIONS.forEach(opt=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="score-btn";
+    b.setAttribute("role","radio");
+    b.setAttribute("aria-checked",answers[q.id]===opt.pts?"true":"false");
+    b.setAttribute("aria-label",opt.n+" — "+opt.label);
+    b.innerHTML='<span class="n" aria-hidden="true">'+opt.n+'</span><span>'+opt.label+'</span><span class="check" aria-hidden="true">✓</span>';
+    b.onclick=()=>{answers[q.id]=opt.pts;hideError();renderQuestion();saveSession("in_progress");};
+    box.appendChild(b);
+  });
+  document.getElementById("btn-back").style.visibility=qIndex===0?"hidden":"visible";
+  document.getElementById("btn-next").textContent=qIndex===4?"See My Results":"Continue";
+}
+function prevQuestion(){if(qIndex>0){qIndex--;hideError();renderQuestion();saveSession("in_progress");go("s-question");}}
+function nextQuestion(){
+  const q=QUESTIONS[qIndex];
+  if(!answers[q.id]){
+    showError("No rush — just pick the answer that feels most true today. There are no wrong answers here.");
+    return;
+  }
+  hideError();
+  if(qIndex<4){qIndex++;renderQuestion();saveSession("in_progress");go("s-question");}
+  else finish();
+}
+/* Keyboard: 1–3 selects a response on the question screen. Keys 4 and 5
+   intentionally do nothing — there are only three response choices. */
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("s-question").classList.contains("active"))return;
+  if(e.key>="1"&&e.key<="3"){
+    const q=QUESTIONS[qIndex];
+    const opt=RESPONSE_OPTIONS.find(o=>String(o.n)===e.key);
+    if(opt){answers[q.id]=opt.pts;hideError();renderQuestion();saveSession("in_progress");}
+  }
+});
+function finish(){
+  lastResult=computeResults(answers,Date.now());
+  if(!completionId){ completionId = "evrc_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,10); }
+  renderResults(lastResult);
+  saveSession("completed");
+  submitCurrentResult();
+  go("s-results");
+}
+
+/* ====================== FORMSPREE PAYLOAD + SUBMISSION ====================== */
+function answerLabel(qId){
+  const opt=RESPONSE_OPTIONS.find(o=>o.pts===answers[qId]);
+  return opt?opt.label:"";
+}
+function buildFormspreePayload(r){
+  const strongNames=r.allEqual?"Balanced":r.strongest.map(k=>CATS[k].name).join(" + ");
+  const weakNames=r.allEqual?"Balanced":r.weakest.map(k=>CATS[k].name).join(" + ");
+  const params=(typeof location!=="undefined")?new URLSearchParams(location.search):new URLSearchParams();
+  return {
+    first_name:userName||"",
+    email:userEmail||"",
+    marketing_consent:marketingConsent||"no",
+    total_score:r.total,
+    readiness_percentage:r.pct,
+    readiness_level:r.level.name,
+    readiness_level_playful:r.level.playful,
+    reach_score:r.scores.R,
+    experience_score:r.scores.E,
+    authority_score:r.scores.A,
+    delivery_score:r.scores.D,
+    yes_score:r.scores.Y,
+    strongest_category:strongNames,
+    focus_category:weakNames,
+    q1_reach_answer:answerLabel("R1"), q1_reach_score:answers.R1,
+    q2_experience_answer:answerLabel("E1"), q2_experience_score:answers.E1,
+    q3_authority_answer:answerLabel("A1"), q3_authority_score:answers.A1,
+    q4_delivery_answer:answerLabel("D1"), q4_delivery_score:answers.D1,
+    q5_yes_answer:answerLabel("Y1"), q5_yes_score:answers.Y1,
+    weekly_focus:r.weekly.what,
+    completed_at:new Date().toISOString(),
+    page_url:(typeof location!=="undefined")?location.href:"",
+    referrer:(typeof document!=="undefined")?(document.referrer||""):"",
+    utm_source:params.get("utm_source")||"",
+    utm_medium:params.get("utm_medium")||"",
+    utm_campaign:params.get("utm_campaign")||"",
+    completion_id:completionId,
+    source:"The Elite Vault R.E.A.D.Y. Business Check",
+    _subject:"New R.E.A.D.Y. Business Check: "+(userName||"Someone")+" | "+r.level.name
+  };
+}
+function isHoneypotFilled(){
+  const hp=document.getElementById("company_website");
+  return !!(hp && hp.value && hp.value.trim().length>0);
+}
+function setSubmitStatus(html,cls){
+  const el=document.getElementById("submit-status");
+  if(!el)return;
+  el.className="submit-status"+(cls?(" "+cls):"");
+  el.innerHTML=html;
+}
+function submitCurrentResult(){
+  if(!lastResult)return;
+  if(isHoneypotFilled()){
+    /* Spam signal — quietly skip the network call without alerting the (likely automated) submitter. */
+    setSubmitStatus("","");
+    return;
+  }
+  if(submissionAttemptedFor===completionId){
+    return; /* already attempted for this completion — avoids duplicate sends */
+  }
+  submissionAttemptedFor=completionId;
+  setSubmitStatus("Recording your Business Check&hellip;","loading");
+  const payload=buildFormspreePayload(lastResult);
+  const formData=new FormData();
+  Object.keys(payload).forEach(k=>formData.append(k, payload[k]==null?"":payload[k]));
+  fetch(CONFIG.formspreeEndpoint,{
+    method:"POST",
+    body:formData,
+    headers:{ "Accept":"application/json" }
+  }).then(res=>{
+    if(res.ok){
+      setSubmitStatus("Your Business Check has been recorded.","success");
+    }else{
+      setSubmitStatus(
+        "Your results are ready, but we had trouble recording them. Please use the button below to try again."
+        +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Retry Submission</button></div>',
+        "fail"
+      );
+    }
+  }).catch(()=>{
+    setSubmitStatus(
+      "Your results are ready, but we had trouble recording them. Please use the button below to try again."
+      +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Retry Submission</button></div>',
+      "fail"
+    );
+  });
+}
+function retrySubmission(){
+  submissionAttemptedFor=null; /* explicit user-initiated retry — allowed */
+  submitCurrentResult();
+}
+
+/* ====================== RESULTS RENDERING ====================== */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function listHtml(arr){return "<ul style=\"margin:6px 0 6px 18px;\">"+arr.map(x=>"<li style=\"margin-bottom:4px;\">"+esc(x)+"</li>").join("")+"</ul>";}
+function catCard(cr){
+  return '<details class="cat"><summary><span><span style="color:var(--fuchsia);font-weight:800;">'+cr.key+"</span> · "+cr.name+" — "+cr.score+' out of 3</span><span class="chev" aria-hidden="true">▶</span></summary><div class="cat-body">'
+    +'<h5>What This Measures</h5><p>'+esc(cr.measures)+"</p>"
+    +'<h5>What Your Answer May Mean</h5><p>'+esc(cr.meaning)+"</p>"
+    +(cr.humor?'<p style="color:var(--muted);font-style:italic;">'+esc(cr.humor)+"</p>":"")
+    +'<h5>A Note From Experience</h5><p>'+esc(cr.story)+"</p>"
+    +"</div></details>";
+}
+function renderResults(r){
+  const n=userName?esc(userName):"";
+  const hello=n?n+", Your":"Your";
+  const strongNames=r.strongest.map(k=>CATS[k].name).join(" + ");
+  const weakNames=r.weakest.map(k=>CATS[k].name).join(" + ");
+  const today=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+  const barOrder=["R","E","A","D","Y"];
+  let bars="";
+  barOrder.forEach(k=>{
+    const cr=r.catResults[k];
+    const cls=(!r.allEqual&&r.strongest.includes(k))?" best":(!r.allEqual&&r.weakest.includes(k))?" worst":"";
+    const pill=(!r.allEqual&&r.strongest.includes(k))?'<span class="pill best">Strongest</span>':(!r.allEqual&&r.weakest.includes(k))?'<span class="pill worst">Focus Area</span>':"";
+    bars+='<div class="bar-row"><div class="bar-label"><span><span class="letter" aria-hidden="true">'+k+"</span>"+cr.name+pill+"</span><span>"+cr.score+" out of 3</span></div><div class=\"bar-track\" role=\"img\" aria-label=\""+cr.name+" score "+cr.score+" out of 3\"><div class=\"bar-fill"+cls+'" style="width:'+(cr.score/3*100)+'%"></div></div></div>';
+  });
+  let cats="";
+  barOrder.forEach(k=>{cats+=catCard(r.catResults[k]);});
+
+  /* 1. Overall R.E.A.D.Y. result */
+  const openingParas=r.opening.map(p=>'<p style="margin-bottom:10px;">'+esc(p)+"</p>").join("");
+  const heroBlock=
+    '<div class="score-hero">'
+      +'<div class="hero-marque">The Elite Vault</div>'
+      +'<div class="lvl">'+esc(r.level.playful)+"</div>"
+      +"<h2>"+hello+" Business Readiness Score Is</h2>"
+      +'<div class="big">'+r.total+' <span style="font-size:.4em;color:#c9c4d2;">out of 15</span></div>'
+      +'<div class="pct">'+r.pct+"% ready for growth</div>"
+      +'<div class="pct" style="margin-top:6px;opacity:.85;">Formal level: '+esc(r.level.name)+"</div>"
+    +"</div>"
+    +'<div class="card">'+openingParas+"</div>";
+
+  /* 2. Category score bars */
+  const barsBlock='<div class="card"><h3 class="section">Your R.E.A.D.Y. Breakdown</h3>'+bars+"</div>";
+
+  /* 3. What May Already Be Working */
+  const workingBlock='<div class="card"><h3 class="section">What May Already Be Working</h3>'
+    +'<div class="callout strong"><h4>'+(r.allEqual?"Balanced across all five areas":strongNames)+"</h4>"
+    +(r.strengthCelebrate?'<p style="margin-bottom:8px;">'+esc(r.strengthCelebrate)+"</p>":"")
+    +'<p style="margin:0;">'+esc(r.strengthNote)+"</p></div></div>";
+
+  /* 4. What May Be Slowing Your Growth */
+  const slowingBlock=r.allEqual?"":
+    '<div class="card"><h3 class="section">What May Be Slowing Your Growth</h3>'
+    +'<div class="callout weak"><h4>'+weakNames+"</h4>"
+    +'<p style="margin-bottom:8px;">'+esc(r.focusCaution)+"</p>"
+    +(r.focusNote?'<p style="margin-bottom:8px;">'+esc(r.focusNote)+"</p>":"")
+    +(r.focusPains.length?listHtml(r.focusPains):"")
+    +"</div></div>";
+
+  /* 5. Main cross-category insight */
+  const crossBlock=r.crossText?'<div class="callout insight"><h4>'+esc(r.cross.title)+'</h4><p style="margin:0;">'+esc(r.crossText)+"</p></div>":"";
+
+  /* 6. What This May Look Like on Facebook */
+  const lookLikeBlock='<div class="card"><h3 class="section">What This May Look Like on Facebook</h3>'+listHtml(r.observations)+"</div>";
+
+  /* 7. Category details */
+  const catsBlock='<div class="card"><h3 class="section">The Full Picture</h3><p class="small">Tap each category for your personalized read.</p>'+cats+"</div>";
+
+  /* 8. Your Focus for This Week */
+  const focusBlock='<div class="move-box"><h3>Your Focus for This Week</h3>'
+    +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">What to Do</h5>'
+    +'<p>'+esc(r.weekly.what)+"</p>"
+    +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">Why It Matters</h5>'
+    +'<p class="why" style="font-style:normal;">'+esc(r.weekly.why)+"</p>"
+    +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">What to Pay Attention To</h5>'
+    +'<p style="margin:0;color:#eee9f2;">'+esc(r.weekly.watch)+"</p>"
+  +"</div>";
+
+  /* 9. Reflection question */
+  const reflectBlock='<div class="reflect-box">💭 '+esc(r.reflection)+"</div>";
+
+  /* 10. Results summary card (no email, consent, or submission status) */
+  const summaryBlock='<div id="summary-card">'
+    +'<div class="sc-brand">The Elite Vault</div>'
+    +'<div class="sc-title">The R.E.A.D.Y. Business Check™</div>'
+    +'<div class="sc-sub">An Interactive Business Growth Readiness Assessment</div>'
+    +"<table><tbody>"
+    +(n?"<tr><td>Name</td><td>"+n+"</td></tr>":"")
+    +"<tr><td>Date</td><td>"+today+"</td></tr>"
+    +"<tr><td>Overall Readiness Level</td><td>"+esc(r.level.playful)+" ("+esc(r.level.name)+")</td></tr>"
+    +"<tr><td>Overall Readiness</td><td>"+r.total+" / 15 ("+r.pct+"%)</td></tr>"
+    +"<tr><td>Reach</td><td>"+r.scores.R+" / 3</td></tr>"
+    +"<tr><td>Experience</td><td>"+r.scores.E+" / 3</td></tr>"
+    +"<tr><td>Authority</td><td>"+r.scores.A+" / 3</td></tr>"
+    +"<tr><td>Delivery</td><td>"+r.scores.D+" / 3</td></tr>"
+    +"<tr><td>Yes</td><td>"+r.scores.Y+" / 3</td></tr>"
+    +"<tr><td>Strongest Category</td><td>"+(r.allEqual?"Balanced":esc(strongNames))+"</td></tr>"
+    +"<tr><td>Focus Category</td><td>"+(r.allEqual?"Balanced":esc(weakNames))+"</td></tr>"
+    +"<tr><td>Focus for This Week</td><td>"+esc(r.weekly.what)+"</td></tr>"
+    +"</tbody></table>"
+  +"</div>"
+  +'<div class="actions-row">'
+    +'<button class="btn ghost" onclick="copyResults()">Copy My Results</button>'
+    +'<button class="btn ghost" onclick="printResults()">Print or Save My Results</button>'
+    +'<button class="btn ghost" onclick="showRestartConfirm()">Retake the Check</button>'
+  +"</div>"
+  +'<div class="copied-note" id="copy-note" aria-live="polite"></div>'
+  +'<div class="restart-confirm" id="restart-confirm" style="display:none;" role="alertdialog" aria-live="assertive">'
+    +'<p>Are you sure you want to restart? Your current answers will be cleared.</p>'
+    +'<div class="btn-row">'
+      +'<button class="btn ghost" onclick="cancelRestart()">Keep My Results</button>'
+      +'<button class="btn dark" onclick="confirmRestart()">Restart the Check</button>'
+    +"</div>"
+  +"</div>"
+  +'<div id="submit-status" class="submit-status" aria-live="polite"></div>';
+
+  /* 11. Landing-page support card (conditional) */
+  const landingBlock=r.showLanding?(
+    '<div class="card">'
+    +'<h3 class="section">Need Somewhere Clear to Send Interested People?</h3>'
+    +"<p>"+esc(r.landingCopy)+"</p>"
+    +'<a class="btn dark" href="'+CONFIG.messengerUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Message The Elite Vault about a landing page">Let&rsquo;s Talk About Your Landing Page</a>'
+    +"</div>"
+  ):"";
+
+  /* 12. Simplified Content Guide card */
+  const contentGuideBlock='<div class="card">'
+    +'<h3 class="section">Need Help Creating More Intentional Content?</h3>'
+    +"<p>"+esc(r.contentGuideCopy)+"</p>"
+    +'<a class="btn dark" href="'+CONFIG.simplifiedContentGuideUrl+'" target="_blank" rel="noopener noreferrer">Get the Simplified Content Guide</a>'
+  +"</div>";
+
+  /* 13. Follow The Elite Vault card */
+  const followBlock='<div class="card fb-card">'
+    +'<h3 class="section">Keep Building With The Elite Vault</h3>'
+    +"<p>"+esc(r.followReason)+"</p>"
+    +'<a class="btn" href="'+CONFIG.facebookUrl+'" target="_blank" rel="noopener noreferrer">Follow The Elite Vault</a>'
+  +"</div>";
+
+  document.getElementById("results-content").innerHTML =
+    heroBlock + barsBlock + workingBlock + slowingBlock + crossBlock + lookLikeBlock
+    + catsBlock + focusBlock + reflectBlock + summaryBlock + landingBlock + contentGuideBlock + followBlock;
+}
+
+/* ====================== INTERACTIONS ====================== */
+function buildCopyText(r){
+  const strongNames=r.allEqual?"Balanced":r.strongest.map(k=>CATS[k].name).join(" + ");
+  const weakNames=r.allEqual?"Balanced":r.weakest.map(k=>CATS[k].name).join(" + ");
+  return [
+    "THE ELITE VAULT — The R.E.A.D.Y. Business Check™",
+    userName?("Name: "+userName):null,
+    "Overall Readiness: "+r.total+" / 15 ("+r.pct+"%) — "+r.level.playful+" ("+r.level.name+")",
+    "R.E.A.D.Y. Breakdown:",
+    "  R — Reach: "+r.scores.R+"/3",
+    "  E — Experience: "+r.scores.E+"/3",
+    "  A — Authority: "+r.scores.A+"/3",
+    "  D — Delivery: "+r.scores.D+"/3",
+    "  Y — Yes: "+r.scores.Y+"/3",
+    "Strongest Category: "+strongNames,
+    "Focus Category: "+weakNames,
+    "Focus for This Week: "+r.weekly.what,
+    "Completed: "+new Date().toLocaleDateString(),
+    "",
+    "From The Elite Vault · facebook.com/EliteVaultSNJ"
+  ].filter(Boolean).join("\n");
+}
+function copyNote(msg,ok){
+  const el=document.getElementById("copy-note");
+  el.textContent=msg;
+  el.style.color=ok?"var(--good)":"var(--fuchsia-deep)";
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),3500);
+}
+function copyResults(){
+  if(!lastResult)return;
+  const text=buildCopyText(lastResult);
+  const ok=()=>copyNote("Copied! Paste it anywhere. ✔",true);
+  const fail=()=>copyNote("Copying is not available on this device — a screenshot of your card works just as well.",false);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(ok).catch(()=>fallbackCopy(text,ok,fail));
+  }else fallbackCopy(text,ok,fail);
+}
+function fallbackCopy(text,ok,fail){
+  try{
+    const ta=document.createElement("textarea");
+    ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    const done=document.execCommand("copy");
+    document.body.removeChild(ta);
+    done?ok():fail();
+  }catch(e){fail();}
+}
+function printResults(){
+  try{window.print();}
+  catch(e){copyNote("Printing is not available here — try the Copy button or take a screenshot of your card.",false);}
+}
+function showRestartConfirm(){
+  const el=document.getElementById("restart-confirm");
+  if(el) el.style.display="block";
+}
+function cancelRestart(){
+  const el=document.getElementById("restart-confirm");
+  if(el) el.style.display="none";
+}
+function confirmRestart(){
+  answers={};qIndex=0;lastResult=null;completionId=null;submissionAttemptedFor=null;
+  clearSession();
+  hideError();renderQuestion();
+  go("s-question");
+}
+/* Enter key advances the name/email screen */
+document.getElementById("name-input").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ e.preventDefault(); submitNameEmail(); }
+});
+document.getElementById("email-input").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ e.preventDefault(); submitNameEmail(); }
+});
+
+/* ====================== SESSION RESUME ON LOAD ======================
+   If the page refreshes mid-assessment, restore first name, email,
+   consent, current question, and answers — but only when the saved
+   data matches the current schema version. Older/incompatible data
+   is never restored. */
+(function initResume(){
+  const sess=loadSession();
+  if(!sess) return;
+  if(sess.stage==="in_progress" && sess.answers && Object.keys(sess.answers).length>0){
+    userName=sess.firstName||"";
+    userEmail=sess.email||"";
+    marketingConsent=sess.consent||"no";
+    answers=Object.assign({},sess.answers);
+    qIndex=Math.min(Math.max(sess.qIndex||0,0),QUESTIONS.length-1);
+    completionId=sess.completionId||null;
+    const nameEl=document.getElementById("name-input");
+    const emailEl=document.getElementById("email-input");
+    if(nameEl) nameEl.value=userName;
+    if(emailEl) emailEl.value=userEmail;
+    const consentEl=document.getElementById("consent-input");
+    if(consentEl) consentEl.checked = marketingConsent==="yes";
+    renderQuestion();
+    go("s-question");
+  }
+})();
+
+</script>
+</body>
+</html>
