@@ -4,6 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The R.E.A.D.Y. Business Check™ | The Elite Vault</title>
+
+<!-- SEO -->
+<meta name="description" content="Take The R.E.A.D.Y. Business Check™ from The Elite Vault: a free 5-question readiness assessment that shows whether your Facebook activity is actually converting into business — with a personalized score and one clear next move.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="The Elite Vault">
+<link rel="canonical" href="https://elite-vault-tm.github.io/ready-business-check/">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://elite-vault-tm.github.io/ready-business-check/">
+<meta property="og:site_name" content="The Elite Vault">
+<meta property="og:title" content="The R.E.A.D.Y. Business Check™ | The Elite Vault">
+<meta property="og:description" content="5 questions. Personalized results. One clear next move. Find out if your Facebook activity is actually built to convert.">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The R.E.A.D.Y. Business Check™ | The Elite Vault">
+<meta name="twitter:description" content="5 questions. Personalized results. One clear next move. Find out if your Facebook activity is actually built to convert.">
+
+<!-- Mobile browser chrome + perf -->
+<meta name="theme-color" content="#15121a">
+<link rel="preconnect" href="https://formspree.io">
+<link rel="dns-prefetch" href="https://formspree.io">
+
+<!-- Lightweight inline favicon (no extra HTTP request / no image asset needed) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2315121a'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "The R.E.A.D.Y. Business Check™",
+  "url": "https://elite-vault-tm.github.io/ready-business-check/",
+  "description": "A free 5-question readiness assessment from The Elite Vault that shows whether your Facebook activity is built to convert followers into business.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "The Elite Vault",
+    "url": "https://elite-vault-tm.github.io/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "The Elite Vault"
+  }
+}
+</script>
+
 <style>
   :root{
     --black:#15121a;
@@ -16,6 +64,7 @@
     --fuchsia-soft:#fbe9f2;
     --gold:#c9a227;
     --gold-soft:#e8d391;
+    --gold-text:#8a6c17;
     --muted:#6f6a76;
     --line:#eae3d6;
     --good:#1e7d4f;
@@ -27,13 +76,19 @@
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:var(--cream);color:var(--ink);line-height:1.65;min-height:100vh;
+    overflow-wrap:break-word;word-wrap:break-word;
   }
   .wrap{max-width:700px;margin:0 auto;padding:18px 18px 64px;}
+  .skip-link{
+    position:absolute;left:-9999px;top:0;background:var(--black);color:#fff;
+    padding:12px 18px;border-radius:0 0 10px 0;font-weight:700;z-index:1000;text-decoration:none;
+  }
+  .skip-link:focus{left:0;}
   .marque{
     text-align:center;padding:24px 0 4px;
     font-family:Georgia,"Times New Roman",serif;
     font-size:14px;letter-spacing:.34em;text-transform:uppercase;
-    color:var(--gold);font-weight:700;
+    color:var(--gold-text);font-weight:700;
   }
   .marque-sub{text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
   .screen{display:none;animation:fadeUp .4s ease both;}
@@ -168,7 +223,7 @@
   }
   /* summary card */
   #summary-card{background:var(--white);border:2px solid var(--gold);border-radius:var(--radius);padding:28px;margin-top:16px;}
-  #summary-card .sc-brand{font-family:Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;font-size:13px;text-align:center;}
+  #summary-card .sc-brand{font-family:Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-text);font-weight:700;font-size:13px;text-align:center;}
   #summary-card .sc-title{font-family:Georgia,serif;text-align:center;font-size:20px;color:var(--black);margin:4px 0 2px;}
   #summary-card .sc-sub{text-align:center;font-size:12px;color:var(--muted);margin-bottom:16px;letter-spacing:.04em;}
   #summary-card table{width:100%;border-collapse:collapse;}
@@ -204,14 +259,23 @@
     #summary-card,#summary-card *{visibility:visible;}
     #summary-card{position:absolute;top:0;left:0;width:100%;border:2px solid #777;box-shadow:none;}
   }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:0.01ms!important;animation-iteration-count:1!important;
+      transition-duration:0.01ms!important;scroll-behavior:auto!important;
+    }
+  }
+  .screen:focus{outline:none;}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <div class="wrap">
   <div class="marque">The Elite Vault</div>
 
+  <main id="main-content">
   <!-- SCREEN 1: WELCOME -->
-  <section id="s-welcome" class="screen active" aria-label="Welcome">
+  <section id="s-welcome" class="screen active" aria-label="Welcome" tabindex="-1">
     <div class="card">
       <h1>The R.E.A.D.Y. Business Check™</h1>
       <div class="descriptor">An Interactive Business Growth Readiness Assessment</div>
@@ -225,17 +289,17 @@
   </section>
 
   <!-- SCREEN 2: NAME + EMAIL -->
-  <section id="s-name" class="screen" aria-label="Your information">
+  <section id="s-name" class="screen" aria-label="Your information" tabindex="-1">
     <div class="card">
-      <h1 style="font-size:clamp(24px,5.5vw,30px);">What should we call you?</h1>
+      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5.5vw,30px);line-height:1.15;color:var(--black);margin-bottom:6px;">What should we call you?</h2>
       <p class="small">Your results will appear immediately after the check. Your email allows The Elite Vault to save your completed result and send information connected to what you are building.</p>
 
       <label class="field-label" for="name-input">First name<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
-      <input type="text" id="name-input" maxlength="30" placeholder="Your first name" autocomplete="given-name" aria-required="true" aria-describedby="name-error">
+      <input type="text" id="name-input" maxlength="30" placeholder="Your first name" autocomplete="given-name" autocapitalize="words" aria-required="true" aria-describedby="name-error">
       <div class="err" id="name-error" role="alert"></div>
 
       <label class="field-label" for="email-input">Where should we send your Business Check information?<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
-      <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" aria-required="true" aria-describedby="email-error">
+      <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" aria-required="true" aria-describedby="email-error">
       <div class="err" id="email-error" role="alert"></div>
 
       <div class="consent-row">
@@ -256,9 +320,9 @@
   </section>
 
   <!-- SCREEN 3: BEFORE YOU BEGIN -->
-  <section id="s-how" class="screen" aria-label="Before you begin">
+  <section id="s-how" class="screen" aria-label="Before you begin" tabindex="-1">
     <div class="card">
-      <h1 style="font-size:clamp(24px,5.5vw,30px);">Before You Begin</h1>
+      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5.5vw,30px);line-height:1.15;color:var(--black);margin-bottom:6px;">Before You Begin</h2>
       <p>Building a business on Facebook takes more than posting consistently.</p>
       <p>Consistency matters, but intention matters too. Your content should help the right people recognize what you do, understand how you can help, and know where to go next.</p>
       <p style="font-weight:700;color:var(--black);margin-bottom:6px;">Facebook can also help you grow by:</p>
@@ -273,13 +337,13 @@
         <li><span class="scale-num" aria-hidden="true">✦</span> Tracking what happens after someone follows, comments, clicks, or messages</li>
       </ul>
       <p>These five questions will help you look beyond how often you post and consider whether your Facebook activity is supporting the business you are trying to build.</p>
-      <p class="reminder"><strong>One honest rule:</strong> Answer based on the business you are running today, not the version currently living in your plans, drafts, or imagination. 😅</p>
+      <p class="reminder"><strong>One honest rule:</strong> Answer based on the business you are running today, not the version currently living in your plans, drafts, or imagination. <span aria-hidden="true">😅</span></p>
       <button class="btn" onclick="startCheck()">Start My Business Check</button>
     </div>
   </section>
 
   <!-- QUESTION SCREEN -->
-  <section id="s-question" class="screen" aria-label="Assessment question">
+  <section id="s-question" class="screen" aria-label="Assessment question" tabindex="-1">
     <div class="card">
       <div class="q-meta">
         <span id="q-count" aria-live="polite">Question 1 of 5</span>
@@ -301,9 +365,10 @@
   </section>
 
   <!-- RESULTS -->
-  <section id="s-results" class="screen" aria-label="Your results">
+  <section id="s-results" class="screen" aria-label="Your results" tabindex="-1">
     <div id="results-content"></div>
   </section>
+  </main>
 
   <footer class="credit">© The Elite Vault · The Elite Vault R.E.A.D.Y. Framework™</footer>
 </div>
@@ -975,7 +1040,13 @@ function go(id){
   el.classList.remove("active");
   void el.offsetWidth; /* restart animation */
   el.classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
+  const prefersReducedMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({top:0,behavior:prefersReducedMotion?"auto":"smooth"});
+  /* Move focus to the new screen so screen reader / keyboard users get an
+     announcement of the section change instead of focus staying on a now-hidden control. */
+  if(el&&typeof el.focus==="function"){
+    window.setTimeout(()=>{ el.focus({preventScroll:true}); }, 0);
+  }
 }
 
 /* ====================== SESSION SAVE / RESUME ====================== */
@@ -1072,16 +1143,42 @@ function renderQuestion(){
   ref.style.display=q.reflect?"block":"none";
   const box=document.getElementById("score-btns");
   box.innerHTML="";
-  RESPONSE_OPTIONS.forEach(opt=>{
+  const checkedIdx=RESPONSE_OPTIONS.findIndex(o=>answers[q.id]===o.pts);
+  const rovingIdx=checkedIdx>=0?checkedIdx:0;
+  RESPONSE_OPTIONS.forEach((opt,i)=>{
     const b=document.createElement("button");
     b.type="button";b.className="score-btn";
     b.setAttribute("role","radio");
     b.setAttribute("aria-checked",answers[q.id]===opt.pts?"true":"false");
     b.setAttribute("aria-label",opt.n+" — "+opt.label);
+    /* Roving tabindex per ARIA radiogroup pattern: only one button is Tab-stoppable at a time. */
+    b.setAttribute("tabindex",i===rovingIdx?"0":"-1");
     b.innerHTML='<span class="n" aria-hidden="true">'+opt.n+'</span><span>'+opt.label+'</span><span class="check" aria-hidden="true">✓</span>';
-    b.onclick=()=>{answers[q.id]=opt.pts;hideError();renderQuestion();saveSession("in_progress");};
+    b.onclick=()=>{
+      answers[q.id]=opt.pts;hideError();renderQuestion();saveSession("in_progress");
+      const newBtn=box.children[i];
+      if(newBtn)newBtn.focus();
+    };
     box.appendChild(b);
   });
+  /* Arrow-key navigation between radio options, matching native radio-group behavior:
+     moving focus also selects the option (Up/Left = previous, Down/Right = next). */
+  box.onkeydown=(e)=>{
+    const keys=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Home","End"];
+    if(!keys.includes(e.key))return;
+    e.preventDefault();
+    const n=RESPONSE_OPTIONS.length;
+    let idx=RESPONSE_OPTIONS.findIndex(o=>answers[q.id]===o.pts);
+    if(idx<0)idx=0;
+    if(e.key==="ArrowUp"||e.key==="ArrowLeft")idx=(idx-1+n)%n;
+    else if(e.key==="ArrowDown"||e.key==="ArrowRight")idx=(idx+1)%n;
+    else if(e.key==="Home")idx=0;
+    else if(e.key==="End")idx=n-1;
+    answers[q.id]=RESPONSE_OPTIONS[idx].pts;
+    hideError();renderQuestion();saveSession("in_progress");
+    const newBtn=box.children[idx];
+    if(newBtn)newBtn.focus();
+  };
   document.getElementById("btn-back").style.visibility=qIndex===0?"hidden":"visible";
   document.getElementById("btn-next").textContent=qIndex===4?"See My Results":"Continue";
 }
@@ -1287,7 +1384,7 @@ function renderResults(r){
   +"</div>";
 
   /* 9. Reflection question */
-  const reflectBlock='<div class="reflect-box">💭 '+esc(r.reflection)+"</div>";
+  const reflectBlock='<div class="reflect-box"><span aria-hidden="true">💭</span> '+esc(r.reflection)+"</div>";
 
   /* 10. Results summary card (no email, consent, or submission status) */
   const summaryBlock='<div id="summary-card">'
@@ -1329,7 +1426,7 @@ function renderResults(r){
     '<div class="card">'
     +'<h3 class="section">Need Somewhere Clear to Send Interested People?</h3>'
     +"<p>"+esc(r.landingCopy)+"</p>"
-    +'<a class="btn dark" href="'+CONFIG.messengerUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Message The Elite Vault about a landing page">Let&rsquo;s Talk About Your Landing Page</a>'
+    +'<a class="btn dark" href="'+CONFIG.messengerUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Message The Elite Vault about a landing page (opens in a new tab)">Let&rsquo;s Talk About Your Landing Page</a>'
     +"</div>"
   ):"";
 
@@ -1337,14 +1434,14 @@ function renderResults(r){
   const contentGuideBlock='<div class="card">'
     +'<h3 class="section">Need Help Creating More Intentional Content?</h3>'
     +"<p>"+esc(r.contentGuideCopy)+"</p>"
-    +'<a class="btn dark" href="'+CONFIG.simplifiedContentGuideUrl+'" target="_blank" rel="noopener noreferrer">Get the Simplified Content Guide</a>'
+    +'<a class="btn dark" href="'+CONFIG.simplifiedContentGuideUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Get the Simplified Content Guide (opens in a new tab)">Get the Simplified Content Guide</a>'
   +"</div>";
 
   /* 13. Follow The Elite Vault card */
   const followBlock='<div class="card fb-card">'
     +'<h3 class="section">Keep Building With The Elite Vault</h3>'
     +"<p>"+esc(r.followReason)+"</p>"
-    +'<a class="btn" href="'+CONFIG.facebookUrl+'" target="_blank" rel="noopener noreferrer">Follow The Elite Vault</a>'
+    +'<a class="btn" href="'+CONFIG.facebookUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Follow The Elite Vault on Facebook (opens in a new tab)">Follow The Elite Vault</a>'
   +"</div>";
 
   document.getElementById("results-content").innerHTML =
