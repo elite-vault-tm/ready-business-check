@@ -98,7 +98,7 @@
   .reveal-item.is-visible{opacity:1;transform:translateY(0);}
   .card{
     background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow);padding:32px 28px;margin-top:16px;
+    box-shadow:var(--shadow);padding:32px 28px;margin-top:16px;transition:box-shadow .2s;
   }
   h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(28px,6vw,40px);line-height:1.15;color:var(--black);margin-bottom:6px;}
   .descriptor{color:var(--muted);font-size:15px;margin-bottom:16px;letter-spacing:.02em;}
@@ -113,13 +113,14 @@
     border:none;border-radius:13px;padding:17px 22px;font-size:17px;font-weight:700;
     cursor:pointer;transition:transform .12s,background .15s;font-family:inherit;
   }
-  .btn:hover{background:var(--fuchsia-deep);transform:translateY(-1px);}
-  .btn:active{transform:translateY(0);}
+  .btn:hover{background:var(--fuchsia-deep);transform:translateY(-2px);box-shadow:0 8px 18px rgba(184,21,102,.28);}
+  .btn:active{transform:translateY(0) scale(.97);box-shadow:none;}
   .btn.dark{background:var(--black);}
-  .btn.dark:hover{background:var(--black-2);}
+  .btn.dark:hover{background:var(--black-2);box-shadow:0 8px 18px rgba(21,18,26,.28);}
   .btn.ghost{background:transparent;color:var(--black);border:2px solid var(--line);font-weight:600;}
-  .btn.ghost:hover{border-color:var(--fuchsia);background:var(--fuchsia-soft);}
-  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .btn.ghost:hover{border-color:var(--fuchsia);background:var(--fuchsia-soft);transform:translateY(-2px);}
+  .btn.ghost:active{transform:translateY(0) scale(.97);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
   .btn:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{
     outline:3px solid var(--fuchsia);outline-offset:2px;border-radius:8px;
   }
@@ -167,15 +168,19 @@
     cursor:pointer;font-family:inherit;color:var(--ink);
     transition:border-color .12s,background .12s,transform .12s;
   }
-  .score-btn:hover{border-color:var(--fuchsia);transform:translateY(-1px);}
-  .score-btn[aria-checked="true"]{border-color:var(--fuchsia);background:var(--fuchsia-soft);font-weight:700;}
+  .score-btn:hover{border-color:var(--fuchsia);transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,21,102,.14);}
+  .score-btn:active{transform:translateY(0) scale(.985);}
+  .score-btn[aria-checked="true"]{border-color:var(--fuchsia);background:var(--fuchsia-soft);font-weight:700;transform:translateY(-1px);box-shadow:0 6px 16px rgba(184,21,102,.16);}
   .score-btn .n{
     flex:0 0 34px;height:34px;border-radius:50%;border:2px solid var(--black);
     display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--black);
+    transition:background .15s,border-color .15s,transform .2s;
   }
-  .score-btn[aria-checked="true"] .n{background:var(--fuchsia);border-color:var(--fuchsia);color:#fff;}
-  .score-btn .check{margin-left:auto;color:var(--fuchsia);font-weight:800;visibility:hidden;}
-  .score-btn[aria-checked="true"] .check{visibility:visible;}
+  .score-btn[aria-checked="true"] .n{background:var(--fuchsia);border-color:var(--fuchsia);color:#fff;transform:scale(1.08);}
+  .score-btn .check{margin-left:auto;color:var(--fuchsia);font-weight:800;visibility:hidden;transform:scale(.5);transition:transform .2s;}
+  .score-btn[aria-checked="true"] .check{visibility:visible;transform:scale(1);}
+  @keyframes qSlideIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+  .q-anim{animation:qSlideIn .35s ease both;}
   .err{
     display:none;background:#fdeef0;border:1px solid #f3c9d2;color:#8e1035;
     border-radius:11px;padding:12px 14px;font-size:15px;margin-top:12px;font-weight:600;
@@ -183,14 +188,31 @@
   .err.show{display:block;animation:fadeUp .25s ease both;}
   /* results */
   .score-hero{
+    position:relative;overflow:hidden;
     background:var(--black);color:#fff;border-radius:var(--radius);
     padding:36px 26px;text-align:center;margin-top:16px;box-shadow:var(--shadow);
+    border:1px solid rgba(232,211,145,.22);
   }
+  .score-hero::before{
+    content:"";position:absolute;top:-90px;left:50%;transform:translateX(-50%);
+    width:280px;height:280px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(232,211,145,.35),transparent 70%);
+  }
+  .score-hero>*{position:relative;z-index:1;}
   .score-hero .hero-marque{font-family:Georgia,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
   .score-hero .lvl{
     display:inline-block;background:var(--fuchsia);color:#fff;font-weight:800;font-size:14px;
     letter-spacing:.08em;text-transform:uppercase;border-radius:99px;padding:8px 20px;margin-bottom:16px;
+    box-shadow:0 6px 16px rgba(184,21,102,.4);
   }
+  .hero-letters{display:flex;justify-content:center;gap:9px;margin:2px 0 16px;flex-wrap:wrap;}
+  .hero-letters span{
+    width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:Georgia,serif;font-weight:800;font-size:14px;border:2px solid rgba(255,255,255,.22);
+    color:#cfc9d8;transition:transform .2s;
+  }
+  .hero-letters span.strong{border-color:var(--gold-soft);color:var(--gold-soft);box-shadow:0 0 10px rgba(232,211,145,.55);}
+  .hero-letters span.weak{border-color:var(--fuchsia);color:var(--fuchsia-soft);box-shadow:0 0 10px rgba(184,21,102,.4);}
   .score-hero h2{font-family:Georgia,serif;font-size:clamp(22px,5.5vw,30px);line-height:1.3;margin-bottom:8px;}
   .score-hero .big{font-size:clamp(48px,12vw,66px);font-family:Georgia,serif;color:var(--gold-soft);font-weight:700;line-height:1.1;}
   .score-hero .pct{color:#c9c4d2;font-size:15px;margin-top:4px;}
@@ -211,11 +233,15 @@
   .callout.weak{background:var(--fuchsia-soft);border:1px solid #f0c4da;}
   .callout.insight{background:#f0eef4;border:1px solid #d8d3e0;}
   .callout h4{font-family:Georgia,serif;color:var(--black);font-size:18px;margin-bottom:8px;}
-  details.cat{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fffdf9;}
+  details.cat{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fffdf9;transition:border-color .15s,box-shadow .15s;}
   details.cat summary{
     cursor:pointer;padding:15px 16px;font-weight:700;color:var(--black);font-size:16px;
     display:flex;justify-content:space-between;align-items:center;list-style:none;gap:8px;
+    transition:background .15s;border-radius:12px;
   }
+  details.cat summary:hover{background:var(--fuchsia-soft);}
+  details.cat summary:active{transform:scale(.995);}
+  details.cat[open]{border-color:var(--fuchsia);box-shadow:0 4px 14px rgba(184,21,102,.08);}
   details.cat summary::-webkit-details-marker{display:none;}
   details.cat summary .chev{transition:transform .2s;color:var(--fuchsia);font-size:13px;}
   details.cat[open] summary .chev{transform:rotate(90deg);}
@@ -244,12 +270,26 @@
   .actions-row .btn{flex:1 1 150px;font-size:15px;padding:14px 12px;}
   .copied-note{font-size:14px;color:var(--good);font-weight:700;text-align:center;margin-top:8px;display:none;}
   .copied-note.show{display:block;}
-  .next-step{background:var(--black);color:#fff;border-radius:var(--radius);padding:30px 26px;margin-top:16px;}
-  .next-step h3{font-family:Georgia,serif;color:var(--gold-soft);font-size:22px;margin-bottom:10px;}
-  .next-step p{color:#e2ddea;font-size:16px;}
+  .next-step{
+    background:linear-gradient(150deg,#fffaf0,#fff);border:2px solid var(--gold);border-radius:var(--radius);
+    padding:26px 24px;margin-top:16px;box-shadow:var(--shadow);text-align:center;
+  }
+  .next-step .ns-label{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-text);font-weight:800;margin-bottom:8px;}
+  .next-step h3{font-family:Georgia,serif;color:var(--black);font-size:21px;margin-bottom:8px;}
+  .next-step p{color:var(--ink);font-size:15.5px;margin-bottom:18px;}
+  .next-step .btn{max-width:340px;margin:0 auto;}
   .fb-card{text-align:center;}
   .fb-card p{font-size:15.5px;}
   a.btn{text-decoration:none;box-sizing:border-box;}
+  .cta-consolidated{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:30px 28px;margin-top:16px;text-align:center;
+  }
+  .cta-consolidated .primary-cta-text{max-width:480px;margin-left:auto;margin-right:auto;}
+  .cta-consolidated .btn{max-width:340px;margin:0 auto;}
+  .cta-secondary-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:20px;padding-top:16px;border-top:1px dashed var(--line);}
+  .cta-secondary-row a{color:var(--muted);font-size:14.5px;font-weight:700;text-decoration:underline;text-underline-offset:3px;transition:color .15s,transform .15s;display:inline-block;}
+  .cta-secondary-row a:hover{color:var(--fuchsia);transform:translateY(-1px);}
   footer.credit{text-align:center;margin-top:28px;font-size:12.5px;color:var(--muted);}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
   /* submission status */
@@ -292,7 +332,7 @@
       <p>One thing I&rsquo;ve learned while growing my own business: more visibility does not automatically create more business. Sometimes the audience is growing, the content is moving, and the income still looks exactly the same. That is usually a sign that something between attention and conversion needs a closer look.</p>
       <p>Posting is one part of growth — but followers are not automatically potential customers. Relationships, referrals, trust, guidance, accountability, systems, and clear next steps matter too. A business can look active online while important growth pieces are still missing.</p>
       <p>This check helps you see which pieces are working — and which ones deserve your attention.</p>
-      <button class="btn" onclick="go('s-name')">Check My Business</button>
+      <button class="btn" onclick="go('s-how')">Check My Business</button>
       <p class="small" style="text-align:center;margin-top:12px;margin-bottom:0;">5 questions. Personalized results. One clear next move.</p>
     </div>
   </section>
@@ -300,8 +340,8 @@
   <!-- SCREEN 2: NAME + EMAIL -->
   <section id="s-name" class="screen" aria-label="Your information" tabindex="-1">
     <div class="card">
-      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5.5vw,30px);line-height:1.15;color:var(--black);margin-bottom:6px;">What should we call you?</h2>
-      <p class="small">Your results will appear immediately after the check. Your email allows The Elite Vault to save your completed result and send information connected to what you are building.</p>
+      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5.5vw,30px);line-height:1.15;color:var(--black);margin-bottom:6px;">You're Done! Let's Reveal Your Score</h2>
+      <p class="small">You've completed all 5 questions. Enter your name and email below to unlock your personalized R.E.A.D.Y. Business Readiness Score.</p>
 
       <label class="field-label" for="name-input">First name<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
       <input type="text" id="name-input" maxlength="30" placeholder="Your first name" autocomplete="given-name" autocapitalize="words" aria-required="true" aria-describedby="name-error">
@@ -323,7 +363,7 @@
       </div>
 
       <div class="btn-row">
-        <button class="btn" id="btn-name-continue" onclick="submitNameEmail()">Continue</button>
+        <button class="btn" id="btn-name-continue" onclick="submitNameEmail()">See My Results</button>
       </div>
     </div>
   </section>
@@ -1128,7 +1168,7 @@ function submitNameEmail(){
   userEmail=emailVal;
   marketingConsent=consentChecked?"yes":"no";
   saveSession("in_progress");
-  go("s-how");
+  finish();
 }
 
 function startCheck(){
@@ -1146,7 +1186,11 @@ function renderQuestion(){
   document.getElementById("q-pct").textContent=Math.round(qIndex/5*100)+"%";
   document.getElementById("q-progress").style.width=(qIndex/5*100)+"%";
   document.getElementById("q-progressbar").setAttribute("aria-valuenow",Math.round(qIndex/5*100));
-  document.getElementById("q-statement").textContent=q.text;
+  const stmtEl=document.getElementById("q-statement");
+  stmtEl.textContent=q.text;
+  stmtEl.classList.remove("q-anim");
+  void stmtEl.offsetWidth; /* restart entrance animation for each question */
+  stmtEl.classList.add("q-anim");
   const ref=document.getElementById("q-reflect");
   ref.textContent=q.reflect||"";
   ref.style.display=q.reflect?"block":"none";
@@ -1200,7 +1244,15 @@ function nextQuestion(){
   }
   hideError();
   if(qIndex<4){qIndex++;renderQuestion();saveSession("in_progress");go("s-question");}
-  else finish();
+  else{
+    /* Quiz complete: compute the score now, but hold the reveal behind the
+       name/email gate so visitors trade contact info for a result they've
+       already earned, instead of being asked cold before any value is shown. */
+    lastResult=computeResults(answers,Date.now());
+    if(!completionId){ completionId = "evrc_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,10); }
+    saveSession("in_progress");
+    go("s-name");
+  }
 }
 /* Keyboard: 1–3 selects a response on the question screen. Keys 4 and 5
    intentionally do nothing — there are only three response choices. */
@@ -1213,8 +1265,6 @@ document.addEventListener("keydown",e=>{
   }
 });
 function finish(){
-  lastResult=computeResults(answers,Date.now());
-  if(!completionId){ completionId = "evrc_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,10); }
   renderResults(lastResult);
   saveSession("completed");
   submitCurrentResult();
@@ -1347,29 +1397,58 @@ function renderResults(r){
 
   /* 1. Overall R.E.A.D.Y. result */
   const openingParas=r.opening.map(p=>'<p style="margin-bottom:10px;">'+esc(p)+"</p>").join("");
+  /* Quick-glance R.E.A.D.Y. badge row: highlights the strongest and weakest
+     letters right in the hero, before anyone scrolls to the full breakdown. */
+  const heroLetters='<div class="hero-letters">'+barOrder.map(k=>{
+    const cls=(!r.allEqual&&r.strongest.includes(k))?" strong":(!r.allEqual&&r.weakest.includes(k))?" weak":"";
+    return '<span class="'+cls.trim()+'" title="'+esc(CATS[k].name)+'">'+k+"</span>";
+  }).join("")+"</div>";
   const heroBlock=
     '<div class="score-hero">'
       +'<div class="hero-marque">The Elite Vault</div>'
-      +'<div class="lvl">'+esc(r.level.playful)+"</div>"
+      +'<div class="lvl"><span aria-hidden="true">&#9733;</span> '+esc(r.level.playful)+"</div>"
       +"<h2>"+hello+" Business Readiness Score Is</h2>"
       +'<div class="big" id="score-total-num">0 <span style="font-size:.4em;color:#c9c4d2;">out of 15</span></div>'
       +'<div class="pct">'+r.pct+"% ready for growth</div>"
       +'<div class="pct" style="margin-top:6px;opacity:.85;">Formal level: '+esc(r.level.name)+"</div>"
+      +heroLetters
     +"</div>"
     +'<div class="card">'+openingParas+"</div>";
 
+  /* Decide the single primary next action for this visitor: the free 1:1 call
+     when their Experience/Yes scores flag a landing-page gap, otherwise the
+     content guide. Everything else becomes a smaller secondary link, so the
+     page never presents three competing offers of equal visual weight. */
+  const primaryIsLanding=!!r.showLanding;
+  const primary=primaryIsLanding?{
+    label:"FREE 15 MIN 1:1",href:CONFIG.landingPageCallUrl,
+    aria:"Schedule a call with The Elite Vault about a landing page (opens in a new tab)",
+    headline:"Give Interested People Somewhere to Go",body:r.landingCopy
+  }:{
+    label:"Get the Simplified Content Guide",href:CONFIG.simplifiedContentGuideUrl,
+    aria:"Get the Simplified Content Guide (opens in a new tab)",
+    headline:"Sharpen What You're Already Saying",body:r.contentGuideCopy
+  };
+  /* 1b. Your Next Step - one clear, dynamically-chosen recommended action, shown immediately under the score */
+  const nextStepBlock='<div class="next-step">'
+    +'<div class="ns-label">Your Next Step</div>'
+    +"<h3>"+esc(primary.headline)+"</h3>"
+    +"<p>"+esc(primary.body)+"</p>"
+    +'<a class="btn dark" href="'+primary.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+primary.aria+'">'+primary.label+"</a>"
+  +"</div>";
+
   /* 2. Category score bars */
-  const barsBlock='<div class="card"><h3 class="section">Your R.E.A.D.Y. Breakdown</h3>'+bars+"</div>";
+  const barsBlock='<div class="card"><h3 class="section">&#128202; Your R.E.A.D.Y. Breakdown</h3>'+bars+"</div>";
 
   /* 3. What May Already Be Working */
-  const workingBlock='<div class="card"><h3 class="section">What May Already Be Working</h3>'
+  const workingBlock='<div class="card"><h3 class="section">&#9989; What May Already Be Working</h3>'
     +'<div class="callout strong"><h4>'+(r.allEqual?"Balanced across all five areas":strongNames)+"</h4>"
     +(r.strengthCelebrate?'<p style="margin-bottom:8px;">'+esc(r.strengthCelebrate)+"</p>":"")
     +'<p style="margin:0;">'+esc(r.strengthNote)+"</p></div></div>";
 
   /* 4. What May Be Slowing Your Growth */
   const slowingBlock=r.allEqual?"":
-    '<div class="card"><h3 class="section">What May Be Slowing Your Growth</h3>'
+    '<div class="card"><h3 class="section">&#9888; What May Be Slowing Your Growth</h3>'
     +'<div class="callout weak"><h4>'+weakNames+"</h4>"
     +'<p style="margin-bottom:8px;">'+esc(r.focusCaution)+"</p>"
     +(r.focusNote?'<p style="margin-bottom:8px;">'+esc(r.focusNote)+"</p>":"")
@@ -1380,13 +1459,13 @@ function renderResults(r){
   const crossBlock=r.crossText?'<div class="callout insight"><h4>'+esc(r.cross.title)+'</h4><p style="margin:0;">'+esc(r.crossText)+"</p></div>":"";
 
   /* 6. What This May Look Like on Facebook */
-  const lookLikeBlock='<div class="card"><h3 class="section">What This May Look Like on Facebook</h3>'+listHtml(r.observations)+"</div>";
+  const lookLikeBlock='<div class="card"><h3 class="section">&#128064; What This May Look Like on Facebook</h3>'+listHtml(r.observations)+"</div>";
 
   /* 7. Category details */
-  const catsBlock='<div class="card"><h3 class="section">The Full Picture</h3><p class="small">Tap each category for your personalized read.</p>'+cats+"</div>";
+  const catsBlock='<div class="card"><h3 class="section">&#129517; The Full Picture</h3><p class="small">Tap each category for your personalized read.</p>'+cats+"</div>";
 
   /* 8. Your Focus for This Week */
-  const focusBlock='<div class="move-box"><h3>Your Focus for This Week</h3>'
+  const focusBlock='<div class="move-box"><h3>&#127919; Your Focus for This Week</h3>'
     +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">What to Do</h5>'
     +'<p>'+esc(r.weekly.what)+"</p>"
     +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">Why It Matters</h5>'
@@ -1433,32 +1512,29 @@ function renderResults(r){
   +"</div>"
   +'<div id="submit-status" class="submit-status" style="display:none;" aria-live="polite"></div>';
 
-  /* 11. Landing-page support card (conditional) */
-  const landingBlock=r.showLanding?(
-    '<div class="card">'
-    +'<h3 class="section">Need Somewhere Clear to Send Interested People?</h3>'
-    +"<p>"+esc(r.landingCopy)+"</p>"
-    +'<a class="btn dark" href="'+CONFIG.landingPageCallUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Schedule a call with The Elite Vault about a landing page (opens in a new tab)">FREE 15 MIN 1:1</a>'
+  /* 11. Consolidated close: one primary action repeated as a short, focused ask,
+     plus two lightweight secondary links (content guide / Facebook) so the
+     page ends with a single clear next step instead of three competing cards. */
+  const closingLine=primaryIsLanding
+    ? "Ready to give interested people somewhere clear to click? Grab a spot below."
+    : "Ready to make your content work harder for you? Grab your guide below.";
+  const secondaryLinks=[];
+  if(primaryIsLanding){
+    secondaryLinks.push({label:"Get the Content Guide",href:CONFIG.simplifiedContentGuideUrl,aria:"Get the Simplified Content Guide (opens in a new tab)"});
+  }
+  secondaryLinks.push({label:"Follow The Elite Vault",href:CONFIG.facebookUrl,aria:"Follow The Elite Vault on Facebook (opens in a new tab)"});
+  const ctaConsolidatedBlock='<div class="cta-consolidated">'
+    +'<h3 class="section">Ready for Your Next Move?</h3>'
+    +'<p class="primary-cta-text">'+esc(closingLine)+"</p>"
+    +'<a class="btn dark" href="'+primary.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+primary.aria+'">'+primary.label+"</a>"
+    +'<div class="cta-secondary-row">'
+      +secondaryLinks.map(s=>'<a href="'+s.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+s.aria+'">'+s.label+"</a>").join("")
     +"</div>"
-  ):"";
-
-  /* 12. Simplified Content Guide card */
-  const contentGuideBlock='<div class="card">'
-    +'<h3 class="section">Need Help Creating More Intentional Content?</h3>'
-    +"<p>"+esc(r.contentGuideCopy)+"</p>"
-    +'<a class="btn dark" href="'+CONFIG.simplifiedContentGuideUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Get the Simplified Content Guide (opens in a new tab)">Get the Simplified Content Guide</a>'
-  +"</div>";
-
-  /* 13. Follow The Elite Vault card */
-  const followBlock='<div class="card fb-card">'
-    +'<h3 class="section">Keep Building With The Elite Vault</h3>'
-    +"<p>"+esc(r.followReason)+"</p>"
-    +'<a class="btn" href="'+CONFIG.facebookUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Follow The Elite Vault on Facebook (opens in a new tab)">Follow The Elite Vault</a>'
   +"</div>";
 
   document.getElementById("results-content").innerHTML =
-    heroBlock + barsBlock + workingBlock + slowingBlock + crossBlock + lookLikeBlock
-    + catsBlock + focusBlock + reflectBlock + summaryBlock + landingBlock + contentGuideBlock + followBlock;
+    heroBlock + nextStepBlock + barsBlock + workingBlock + slowingBlock + crossBlock + lookLikeBlock
+    + catsBlock + focusBlock + reflectBlock + summaryBlock + ctaConsolidatedBlock;
 
   initResultsReveal(r);
 }
