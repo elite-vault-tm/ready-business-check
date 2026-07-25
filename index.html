@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The R.E.A.D.Y. Business Check™ | The Elite Vault</title>
-
 <!-- SEO -->
 <meta name="description" content="Take The R.E.A.D.Y. Business Check™ from The Elite Vault: a free 5-question readiness assessment that shows whether your Facebook activity is actually converting into business — with a personalized score and one clear next move.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="The Elite Vault">
 <link rel="canonical" href="https://elite-vault-tm.github.io/ready-business-check/">
-
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://elite-vault-tm.github.io/ready-business-check/">
@@ -18,20 +16,16 @@
 <meta property="og:title" content="The R.E.A.D.Y. Business Check™ | The Elite Vault">
 <meta property="og:description" content="5 questions. Personalized results. One clear next move. Find out if your Facebook activity is actually built to convert.">
 <meta property="og:locale" content="en_US">
-
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The R.E.A.D.Y. Business Check™ | The Elite Vault">
 <meta name="twitter:description" content="5 questions. Personalized results. One clear next move. Find out if your Facebook activity is actually built to convert.">
-
 <!-- Mobile browser chrome + perf -->
 <meta name="theme-color" content="#15121a">
 <link rel="preconnect" href="https://formspree.io">
 <link rel="dns-prefetch" href="https://formspree.io">
-
 <!-- Lightweight inline favicon (no extra HTTP request / no image asset needed) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2315121a'/%3E%3Ctext x='50' y='68' font-size='58' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
-
 <!-- Structured data -->
 <script type="application/ld+json">
 {
@@ -51,7 +45,6 @@
   }
 }
 </script>
-
 <style>
   :root{
     --black:#15121a;
@@ -160,7 +153,17 @@
   }
   @keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
   .q-statement{font-family:Georgia,serif;font-size:clamp(21px,5vw,26px);line-height:1.35;color:var(--black);margin-bottom:8px;}
-  .q-reflect{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:16px;}
+  .q-reflect{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:12px;}
+  .why-details{margin-bottom:16px;}
+  .why-details summary{
+    cursor:pointer;font-size:13.5px;font-weight:700;color:var(--fuchsia);list-style:none;
+    display:inline-flex;align-items:center;gap:6px;padding:2px 0;
+  }
+  .why-details summary::-webkit-details-marker{display:none;}
+  .why-details summary::before{content:"?";display:inline-flex;align-items:center;justify-content:center;
+    width:17px;height:17px;border-radius:50%;border:1.5px solid var(--fuchsia);font-size:11px;font-weight:800;flex:0 0 17px;}
+  .why-details[open] summary::before{content:"–";}
+  .why-details p{font-size:14.5px;color:var(--muted);margin:8px 0 0;padding-left:23px;border-left:2px solid var(--fuchsia-soft);}
   .score-btns{display:flex;flex-direction:column;gap:10px;margin:16px 0 4px;}
   .score-btn{
     display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fffdf9;
@@ -186,6 +189,27 @@
     border-radius:11px;padding:12px 14px;font-size:15px;margin-top:12px;font-weight:600;
   }
   .err.show{display:block;animation:fadeUp .25s ease both;}
+  /* analyzing transition screen */
+  .analyzing-wrap{text-align:center;padding:12px 4px 4px;}
+  .analyzing-spinner{
+    width:56px;height:56px;margin:8px auto 22px;border-radius:50%;
+    border:4px solid var(--line);border-top-color:var(--fuchsia);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .analyzing-list{list-style:none;text-align:left;max-width:420px;margin:0 auto;}
+  .analyzing-list li{
+    display:flex;align-items:center;gap:12px;padding:10px 4px;font-size:15.5px;color:var(--muted);
+    opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease,color .2s;
+  }
+  .analyzing-list li.show{opacity:1;transform:translateY(0);}
+  .analyzing-list li.done{color:var(--black);font-weight:600;}
+  .analyzing-list li .chk{
+    flex:0 0 20px;height:20px;border-radius:50%;border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;
+    transition:background .2s,border-color .2s,color .2s;
+  }
+  .analyzing-list li.done .chk{background:var(--fuchsia);border-color:var(--fuchsia);color:#fff;}
   /* results */
   .score-hero{
     position:relative;overflow:hidden;
@@ -213,6 +237,7 @@
   }
   .hero-letters span.strong{border-color:var(--gold-soft);color:var(--gold-soft);box-shadow:0 0 10px rgba(232,211,145,.55);}
   .hero-letters span.weak{border-color:var(--fuchsia);color:var(--fuchsia-soft);box-shadow:0 0 10px rgba(184,21,102,.4);}
+  .emotional-headline{font-family:Georgia,serif;font-style:italic;font-size:clamp(18px,4.2vw,22px);line-height:1.4;color:var(--gold-soft);margin-bottom:10px;}
   .score-hero h2{font-family:Georgia,serif;font-size:clamp(22px,5.5vw,30px);line-height:1.3;margin-bottom:8px;}
   .score-hero .big{font-size:clamp(48px,12vw,66px);font-family:Georgia,serif;color:var(--gold-soft);font-weight:700;line-height:1.1;}
   .score-hero .pct{color:#c9c4d2;font-size:15px;margin-top:4px;}
@@ -256,6 +281,14 @@
     background:#fffdf7;border:1px dashed var(--fuchsia);border-radius:13px;padding:20px;
     margin-top:16px;font-family:Georgia,serif;font-style:italic;font-size:17.5px;color:var(--black);
   }
+  /* signature section — "If We Were Sitting Across From Each Other..." */
+  .signature-block{
+    background:var(--black);color:#eee9f2;border-radius:var(--radius);padding:30px 26px;
+    margin-top:16px;box-shadow:var(--shadow);border:1px solid rgba(232,211,145,.22);
+  }
+  .signature-block h3{font-family:Georgia,serif;color:var(--gold-soft);font-size:20px;margin-bottom:14px;}
+  .signature-block p{font-size:16.5px;line-height:1.7;color:#eee9f2;}
+  .signature-block .sig-name{font-family:Georgia,serif;font-style:italic;color:var(--gold-soft);font-size:16px;margin-top:6px;margin-bottom:0;}
   /* summary card */
   #summary-card{background:var(--white);border:2px solid var(--gold);border-radius:var(--radius);padding:28px;margin-top:16px;}
   #summary-card .sc-brand{font-family:Georgia,serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-text);font-weight:700;font-size:13px;text-align:center;}
@@ -321,53 +354,45 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div class="wrap">
   <div class="marque">The Elite Vault</div>
-
   <main id="main-content">
   <!-- SCREEN 1: WELCOME -->
   <section id="s-welcome" class="screen active" aria-label="Welcome" tabindex="-1">
     <div class="card">
-      <h1>The R.E.A.D.Y. Business Check™</h1>
-      <div class="descriptor">An Interactive Business Growth Readiness Assessment</div>
-      <div class="tagline">If your business grew overnight, would it be ready to convert?</div>
-      <p>One thing I&rsquo;ve learned while growing my own business: more visibility does not automatically create more business. Sometimes the audience is growing, the content is moving, and the income still looks exactly the same. That is usually a sign that something between attention and conversion needs a closer look.</p>
-      <p>Posting is one part of growth — but followers are not automatically potential customers. Relationships, referrals, trust, guidance, accountability, systems, and clear next steps matter too. A business can look active online while important growth pieces are still missing.</p>
-      <p>This check helps you see which pieces are working — and which ones deserve your attention.</p>
+      <div class="tagline" style="margin-top:0;">What if your business suddenly grew this week?</div>
+      <p style="font-family:Georgia,serif;font-size:18.5px;color:var(--black);">Would everything behind the scenes be ready&hellip; or would growth expose the gaps?</p>
+      <p>Most businesses do not stall because people never find them. They stall somewhere quieter — between the moment someone gets interested and the moment they actually become a customer.</p>
+      <h1 style="margin-top:18px;">The R.E.A.D.Y. Business Check™</h1>
+      <div class="descriptor">By The Elite Vault &middot; An Interactive Business Growth Readiness Assessment</div>
+      <p>Five short questions. One honest look at whether your Facebook activity is actually built to convert — not just built to be seen.</p>
       <button class="btn" onclick="go('s-how')">Check My Business</button>
-      <p class="small" style="text-align:center;margin-top:12px;margin-bottom:0;">5 questions. Personalized results. One clear next move.</p>
+      <p class="small" style="text-align:center;margin-top:12px;margin-bottom:0;">5 questions. A personalized read on your business. One clear next move.</p>
     </div>
   </section>
-
   <!-- SCREEN 2: NAME + EMAIL -->
   <section id="s-name" class="screen" aria-label="Your information" tabindex="-1">
     <div class="card">
       <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,5.5vw,30px);line-height:1.15;color:var(--black);margin-bottom:6px;">You're Done! Let's Reveal Your Score</h2>
-      <p class="small">You've completed all 5 questions. Enter your name and email below to unlock your personalized R.E.A.D.Y. Business Readiness Score.</p>
-
+      <p class="small">That's all 5. Your personalized R.E.A.D.Y. Business Readiness Score is ready &mdash; just tell us where to send it.</p>
       <label class="field-label" for="name-input">First name<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
       <input type="text" id="name-input" maxlength="30" placeholder="Your first name" autocomplete="given-name" autocapitalize="words" aria-required="true" aria-describedby="name-error">
       <div class="err" id="name-error" role="alert"></div>
-
       <label class="field-label" for="email-input">Where should we send your Business Check information?<span class="req" aria-hidden="true">*</span><span class="sr-only">required</span></label>
       <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" aria-required="true" aria-describedby="email-error">
       <div class="err" id="email-error" role="alert"></div>
-
       <div class="consent-row">
         <input type="checkbox" id="consent-input">
         <label for="consent-input">Yes, send me practical Elite Vault tips, content support, and updates. I can unsubscribe anytime.</label>
       </div>
       <p class="privacy-note">Your information will be used to process your Business Check. Marketing updates are optional.</p>
-
       <div class="hp-field" aria-hidden="true">
         <label for="company_website">Company Website</label>
         <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off">
       </div>
-
       <div class="btn-row">
         <button class="btn" id="btn-name-continue" onclick="submitNameEmail()">See My Results</button>
       </div>
     </div>
   </section>
-
   <!-- SCREEN 3: BEFORE YOU BEGIN -->
   <section id="s-how" class="screen" aria-label="Before you begin" tabindex="-1">
     <div class="card">
@@ -390,7 +415,6 @@
       <button class="btn" onclick="startCheck()">Start My Business Check</button>
     </div>
   </section>
-
   <!-- QUESTION SCREEN -->
   <section id="s-question" class="screen" aria-label="Assessment question" tabindex="-1">
     <div class="card">
@@ -403,13 +427,23 @@
       </div>
       <div id="q-statement" class="q-statement"></div>
       <div id="q-reflect" class="q-reflect"></div>
+      <div id="q-why"></div>
       <div id="score-btns" class="score-btns" role="radiogroup" aria-labelledby="q-statement"></div>
       <div id="q-error" class="err" role="alert"></div>
       <div class="btn-row">
         <button class="btn ghost" id="btn-back" onclick="prevQuestion()">Back</button>
         <button class="btn" id="btn-next" onclick="nextQuestion()">Continue</button>
       </div>
-      <p class="small" style="margin-top:12px;margin-bottom:0;text-align:center;">Tip: you can also press 1–3 on your keyboard.</p>
+      <p class="small" style="margin-top:12px;margin-bottom:0;text-align:center;">Tip: your keyboard works too &mdash; press 1, 2, or 3.</p>
+    </div>
+  </section>
+  <!-- SCREEN: ANALYZING TRANSITION -->
+  <section id="s-analyzing" class="screen" aria-label="Analyzing your business" tabindex="-1">
+    <div class="card analyzing-wrap">
+      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,5vw,27px);color:var(--black);margin-bottom:6px;">Analyzing Your Business&hellip;</h2>
+      <p class="small" style="margin-bottom:0;">Give us just a moment to put your answers together.</p>
+      <div class="analyzing-spinner" aria-hidden="true"></div>
+      <ul class="analyzing-list" id="analyzing-list" aria-live="polite"></ul>
     </div>
   </section>
 
@@ -418,10 +452,8 @@
     <div id="results-content"></div>
   </section>
   </main>
-
   <footer class="credit">© The Elite Vault · The Elite Vault R.E.A.D.Y. Framework™</footer>
 </div>
-
 <script>
 "use strict";
 /* ============================================================
@@ -445,40 +477,50 @@ const CONFIG = {
 /* Local-storage schema version. Bumped independently of CONFIG.storageKey
    so old/incompatible saved data is safely ignored rather than restored. */
 const SCHEMA_VERSION = 5;
-
 /* ====================== RESPONSE SCALE (3 choices — unchanged) ====================== */
 const RESPONSE_OPTIONS=[
   {n:1,label:"Absolutely not. We are operating on vibes over here 😅",pts:1},
   {n:2,label:"Kind of. I have a plan somewhere between my brain, notes, and screenshots",pts:2},
   {n:3,label:"Yes. There is a clear process, and I know where to find it",pts:3}
 ];
-
 /* ====================== QUESTIONS ======================
-   Q1 (Reach), Q3 (Authority), Q4 (Delivery) unchanged.
-   Q2 (Experience) and Q5 (Yes) updated to include the
-   offer/destination/landing-page theme. */
+   Same 5 questions, same fixed order. Each now includes a short
+   "why this matters" explanation shown in a collapsed, optional
+   expander on the question screen. */
 const QUESTIONS = [
   {id:"R1",cat:"R",
    text:"Do I have a clear way to tell whether the people finding and engaging with my business are potential customers, collaborators, referral partners, or valuable connections?",
-   reflect:"A bigger audience is not automatically a better audience."},
+   reflect:"A bigger audience is not automatically a better audience.",
+   why:"Reach is not just about how many people see your content — it is about whether the right people are among them. A large audience of the wrong people will not grow your business the way a smaller, aligned one will."},
   {id:"E1",cat:"E",
    text:"Do I have a clear path that helps interested people understand what I offer, where to go next, and what they will find when they click?",
-   reflect:"Getting the click is only part of the journey. There needs to be something clear waiting on the other side."},
+   reflect:"Getting the click is only part of the journey. There needs to be something clear waiting on the other side.",
+   why:"Every click should lead somewhere clear. When someone shows interest but lands on a confusing or generic page, that momentum disappears — even if the content that got their attention did its job perfectly."},
   {id:"A1",cat:"A",
    text:"Do I consistently use my content, experience, results, or proof to give people a clear reason to trust my business?",
-   reflect:"Useful content gets attention. Visible experience and proof help build trust."},
+   reflect:"Useful content gets attention. Visible experience and proof help build trust.",
+   why:"Trust is not built by simply showing up and posting. It is built by consistently showing your experience, proof, and results so people have a real reason to believe you can help them."},
   {id:"D1",cat:"D",
    text:"Do I have clear systems for handling inquiries, following up, serving customers, and managing new opportunities without becoming overwhelmed?",
-   reflect:"More attention can create more stress when the process is not ready for it."},
+   reflect:"More attention can create more stress when the process is not ready for it.",
+   why:"A sudden wave of interest should feel exciting, not chaotic. Without a clear system for follow-up, growth can quietly turn into missed opportunities instead of new customers."},
   {id:"Y1",cat:"Y",
    text:"Do I have a clear way to track whether my visibility and engagement are leading people to my offers, landing pages, inquiries, bookings, purchases, referrals, collaborations, or another meaningful business result?",
-   reflect:"Engagement feels good. Business movement matters too."}
+   reflect:"Engagement feels good. Business movement matters too.",
+   why:"Engagement and business growth are not the same thing. Likes and comments feel good, but if you are not tracking what happens after someone clicks or messages, you may not actually know whether your visibility is working."}
 ];
 const CAT_ORDER=["R","E","A","D","Y"];
-
-/* ====================== READINESS LEVELS (scoring unchanged) ====================== */
+/* ====================== READINESS LEVELS ======================
+   Scoring, keys, names, and playful titles unchanged. Each level now
+   also carries a bank of larger emotional headlines, displayed above
+   the readiness pill in the results hero. */
 const LEVELS = [
   {key:"foundation",name:"Foundation Needed",playful:"Running on Vibes",min:5,max:7,
+   emotionalHeadlines:[
+    "You've got the vision. Now let's build the systems.",
+    "Every strong business starts exactly here.",
+    "This is the starting line, not a setback."
+   ],
    openings:[
     ["You do not need to turn your business into a corporate operations department by Friday. You need one clear place to begin.",
      "Right now, some important parts of your growth may depend on memory, motivation, or hoping you remember which screenshot had the good idea. 😅 Your answers suggest the ideas are there — the processes just are not built yet.",
@@ -501,6 +543,11 @@ const LEVELS = [
     "Follow The Elite Vault to learn how to create the kind of Facebook presence — content, spaces, relationships, and simple systems — that supports the business you are actually trying to build."
    ]},
   {key:"momentum",name:"Building Momentum",playful:"The Pieces Are Coming Together",min:8,max:10,
+   emotionalHeadlines:[
+    "You're closer than you think.",
+    "The pieces are already in your hands.",
+    "This is the stage where consistency starts to compound."
+   ],
    openings:[
     ["You have useful pieces in place. The challenge is making them work together consistently.",
      "This is often the stage where the plan exists, but it is spread across a notebook, a few screenshots, and something you were definitely going to remember. 😂 Your answers suggest real progress — just not fully connected yet.",
@@ -523,6 +570,11 @@ const LEVELS = [
     "You are close to something that runs smoothly. Follow The Elite Vault for the lessons that turn scattered pieces — content, relationships, tracking — into one steady system."
    ]},
   {key:"nearly",name:"Nearly R.E.A.D.Y.",playful:"Nearly R.E.A.D.Y.",min:11,max:13,
+   emotionalHeadlines:[
+    "You're almost there — a few small fixes will do it.",
+    "The finish line is closer than the score suggests.",
+    "One honest look, and you're through this stage."
+   ],
    openings:[
     ["You have a genuinely useful foundation. One or two gaps may still be slowing things down more than they need to.",
      "This is where small, specific fixes matter more than big new ideas. Your answers suggest most of the business is working — the remaining friction is worth fixing precisely because everything else is already pulling its weight.",
@@ -545,6 +597,11 @@ const LEVELS = [
     "You are close enough that a couple of intentional fixes make a real difference. Follow The Elite Vault for the specific kind of help that closes gaps like these."
    ]},
   {key:"ready",name:"R.E.A.D.Y. to Grow",playful:"R.E.A.D.Y. to Grow",min:14,max:15,
+   emotionalHeadlines:[
+    "You've built something solid. Now let's protect it.",
+    "This is what a ready business actually looks like.",
+    "Growth from here should feel like momentum, not chaos."
+   ],
    openings:[
     ["Your answers suggest you have clear processes in most or all five areas. The focus now is refinement, measurement, and protecting what already works.",
      "Based on how you rated your business, the foundation is working. The goal from here is refining what already works instead of adding random tactics because somebody online said you need another funnel. 😂",
@@ -567,10 +624,7 @@ const LEVELS = [
     "This is the stage where protecting what works matters as much as building something new. Follow The Elite Vault for practical ways to do both at once."
    ]}
 ];
-
-/* ====================== CATEGORY BANKS ======================
-   R, A, D unchanged. E and Y augmented with destination/tracking
-   language to match the updated Q2 and Q5 wording. */
+/* ====================== CATEGORY BANKS (unchanged) ====================== */
 const CATS = {
   R:{name:"Reach",
     measures:"Whether you have a clear way to tell if the people finding and engaging with your business are actually a good fit — not just an audience.",
@@ -794,7 +848,6 @@ const CATS = {
      "You cannot improve what you are not tracking, even if it is quietly working."
     ]}
 };
-
 /* ====================== "WHAT MAY ALREADY BE WORKING" NOTES ====================== */
 const STRENGTH_NOTES={
   R:["This likely shows up as attracting people who are a realistic fit — not just a bigger crowd, but a more aligned one. Keep protecting that alignment as your reach grows.",
@@ -809,7 +862,6 @@ const STRENGTH_NOTES={
      "You probably have some sense of whether your visibility is turning into inquiries or sales, not just activity. Keep that habit — it is more useful than it feels."]
 };
 const TIE_STRENGTH_NOTE="More than one area may be working well together right now, which is worth acknowledging honestly rather than forcing one to stand out as uniquely strongest.";
-
 /* ====================== "WHAT MAY BE SLOWING YOUR GROWTH" PAIN POINTS ====================== */
 const PAIN_POINTS={
   R:["Posting consistently without knowing who the content is actually attracting.",
@@ -829,7 +881,6 @@ const PAIN_POINTS={
      "Tracking reactions and comments while not tracking clicks, messages, inquiries, or purchases."]
 };
 const TIE_FOCUS_NOTE="More than one area may currently be slowing growth by a similar amount — worth treating as a shared starting point rather than a single dramatic weak spot.";
-
 /* ====================== "WHAT THIS MAY LOOK LIKE ON FACEBOOK" OBSERVATIONS ====================== */
 const OBSERVATIONS={
   R:["You may be posting often without checking whether the right audience is responding.",
@@ -856,12 +907,7 @@ const OBSERVATIONS_GENERIC=[
   "Your five areas may currently be developing at a similar pace, without one obvious place to start.",
   "One pattern worth checking across the board is whether Facebook activity is being tracked as business movement, or just watched as engagement."
 ];
-
-/* ====================== WEEKLY FOCUS ======================
-   Pools of {what,why,watch} recommendations per category, selected
-   with the same deterministic picker used elsewhere. R, A, D keep
-   their original single recommendation. E and Y are expanded with
-   destination- and tracking-specific options. */
+/* ====================== WEEKLY FOCUS (unchanged) ====================== */
 const WEEKLY_FOCUS={
   R:[{what:"Review the last 20 people who followed or meaningfully engaged with your business, and sort them into potential customer, collaborator, referral partner, valuable connection, or general audience.",
      why:"This helps you determine whether audience growth is supporting the business or only increasing the visible number.",
@@ -912,7 +958,6 @@ const BALANCED_FOCUS={
      why:"With everything already at a working level, refinement is likely to move the business further than new tactics.",
      watch:"What the numbers say about that process after a week of closer attention."}
 };
-
 /* ====================== CROSS-CATEGORY INSIGHT (unchanged logic) ====================== */
 const isStrong=v=>v===3, isWeak=v=>v===1;
 const CROSS=[
@@ -953,11 +998,6 @@ const CROSS=[
     (s,c)=>"No single area is dramatically ahead of the others. Steady, general progress will likely move the needle more than fixing any one 'weak spot.'",
     (s,c)=>"Your five areas are developing evenly. That is a fine place to be — pick one, like "+c.weakName+", and build from there."]}
 ];
-/* Cross-category patterns that imply "attention without a clear destination" —
-   used, alongside raw Experience/Yes scores, to decide whether to show the
-   landing-page support card. */
-const LANDING_TRIGGER_CROSS_IDS=["reachExp","authExp","reachYes"];
-
 /* ====================== MISC BANKS ====================== */
 const CATEGORY_REFLECTIONS={
   R:["Of the people currently engaging with your business, how many could you confidently sort into a category — customer, collaborator, referral partner, or general audience?",
@@ -979,11 +1019,69 @@ const CONTENT_GUIDE_COPY=[
   "Your content should do more than keep your page active. The Simplified Content Guide can help you use simple prompts to plan purposeful posts, so every piece of content has a job to do."
 ];
 const LANDING_CARD_COPY="Your content can get people interested, but they still need a clear place to learn more, understand your offer, or take the next step. A focused landing page can help connect the message in your content to the action you want people to take.";
-
+/* ====================== SIGNATURE NOTES ======================
+   "If We Were Sitting Across From Each Other..." — Sabrina speaking
+   directly, in her own voice. Multiple variations per readiness
+   level, each a short set of 2-3 punchy paragraphs. */
+const SIGNATURE_NOTES={
+  foundation:[
+   ["You don't need to have this all figured out today. You just need one place to start.",
+    "Here's the truth: you've got the vision. Now let's build the systems underneath it.",
+    "Pick one thing from this report. Just one. Build that first."],
+   ["I've been exactly where you are — posting, showing up, hoping it adds up to something. It doesn't, until there's a process behind it.",
+    "This isn't a sign you're doing it wrong. It's a sign you're ready for the next layer.",
+    "Start small. One repeatable habit beats five half-finished ideas."],
+   ["Most businesses don't struggle because people never find them. They struggle because visitors don't know where to go next.",
+    "You're not behind. You're just early in building the part nobody sees from the outside.",
+    "Give yourself permission to build slowly. It still counts."]
+  ],
+  momentum:[
+   ["You're closer than you think. Really.",
+    "You've got real pieces working. They just aren't talking to each other yet.",
+    "Connect two of them this week, and you'll feel the difference immediately."],
+   ["You're doing more right than you realize. Now it's time to tighten the pieces that people don't see.",
+    "This is the messy middle — busy on the outside, a little held together on the inside. Completely normal.",
+    "One connected system will do more for you than five new ideas."],
+   ["I can tell you've been putting in the work. It shows in your answers.",
+    "The next win isn't a new tactic. It's consistency on the ones you already have.",
+    "You don't need to start over. You need to finish what's already started."]
+  ],
+  nearly:[
+   ["You're closer to done than this score might make it feel.",
+    "One or two small gaps are quietly costing you more than they should. That's genuinely good news — small gaps are the easiest ones to close.",
+    "Fix the smallest thing first. Momentum builds from there."],
+   ["Most of your business is already working. I want you to actually sit with that for a second.",
+    "The remaining friction is worth fixing precisely because everything else is pulling its weight.",
+    "You're not far. You're just one honest look away."],
+   ["You've built more than you're giving yourself credit for.",
+    "This stage isn't about working harder. It's about noticing the one thing that's still a little loose.",
+    "Tighten that, and the rest of the business gets to feel as solid as it actually is."]
+  ],
+  ready:[
+   ["You've built something solid. I don't say that lightly.",
+    "From here, the goal isn't more. It's protecting what's already working while you grow it on purpose.",
+    "Keep measuring. Keep refining. Resist the urge to add complexity just because it's available."],
+   ["You don't need another hundred followers. You need to keep doing exactly what's already working — on purpose, and out loud.",
+    "This is a rare place to be. Most businesses never get their foundation this clear.",
+    "Protect it. Growth from here should feel like momentum, not chaos."],
+   ["Your answers tell me you've done the unglamorous work most people skip.",
+    "The next stage is quieter: measurement, refinement, and not overcomplicating a business that already works.",
+    "You've earned the right to grow this slowly and intentionally."]
+  ]
+};
+/* ====================== SMARTER RECOMMENDATION LOGIC ======================
+   Instead of listing every possible next step, the report picks ONE
+   personalized recommendation based on the weakest category. Ties are
+   resolved by practical value, not by category order. */
+const RECOMMENDATION_MAP={E:"landing",Y:"landing",A:"guide",D:"follow",R:"follow"};
+const RECOMMENDATION_PRIORITY=["E","A","D","R","Y"];
+function pickRecommendationCategory(weakestArr){
+  for(const k of RECOMMENDATION_PRIORITY){ if(weakestArr.includes(k)) return k; }
+  return weakestArr[0];
+}
 /* ====================== SELECTION ENGINE ====================== */
 function hashStr(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function makePicker(seed){return function(arr,salt){if(!arr||!arr.length)return "";return arr[(seed+Math.imul(salt,2654435761)>>>0)%arr.length];};}
-
 /* ====================== SCORING (pure; scoring math unchanged) ====================== */
 function computeResults(answers,nonce){
   const scores={};
@@ -991,22 +1089,17 @@ function computeResults(answers,nonce){
   const total=CAT_ORDER.reduce((sum,k)=>sum+scores[k],0);
   const pct=Math.round(((total-5)/10)*100);
   const level=LEVELS.find(l=>total>=l.min&&total<=l.max)||LEVELS[0];
-
   const maxV=Math.max(...CAT_ORDER.map(k=>scores[k]));
   const minV=Math.min(...CAT_ORDER.map(k=>scores[k]));
   const strongest=CAT_ORDER.filter(k=>scores[k]===maxV);
   const weakest=CAT_ORDER.filter(k=>scores[k]===minV);
   const allEqual=strongest.length===5;
-
   const strongKey=strongest[0];
   const weakKey=weakest[0];
-
   const ctx={weakName:CATS[weakKey].name,strongName:CATS[strongKey].name};
   const cross=(!allEqual)?(CROSS.find(c=>c.test(scores))||null):(scores.R===3?CROSS.find(c=>c.id==="allStrong"):CROSS.find(c=>c.id==="balanced"));
-
   const seed=hashStr(JSON.stringify(answers)+"|"+nonce);
   const pick=makePicker(seed);
-
   const band=s=>s===1?"low":s===2?"mid":"high";
   const catResults={};
   CAT_ORDER.forEach((k,i)=>{
@@ -1019,18 +1112,15 @@ function computeResults(answers,nonce){
       humor:band(s)==="high"?"":pick(c.humor,70+i)
     };
   });
-
   /* What may already be working */
   const strengthNote=allEqual?TIE_STRENGTH_NOTE:(strongest.length>1?TIE_STRENGTH_NOTE:pick(STRENGTH_NOTES[strongKey],20));
   const strengthCelebrate=allEqual?"":pick(CATS[strongKey].celebrate,3);
-
   /* What may be slowing growth */
   const focusCaution=allEqual?"":pick(CATS[weakKey].caution,4);
   const focusPains=allEqual?[]:(weakest.length>1
     ? weakest.slice(0,2).flatMap(k=>PAIN_POINTS[k].slice(0,1))
     : PAIN_POINTS[weakKey].slice(0, Math.min(2,PAIN_POINTS[weakKey].length)));
   const focusNote=allEqual?"":(weakest.length>1?TIE_FOCUS_NOTE:"");
-
   /* What this may look like on Facebook (2-4 observations) */
   let observations=[];
   if(allEqual){
@@ -1045,16 +1135,21 @@ function computeResults(answers,nonce){
     }
   }
   observations=observations.slice(0,4);
-
   const weekly=allEqual?BALANCED_FOCUS[scores.R]:pick(WEEKLY_FOCUS[weakKey],40);
   const reflection=allEqual?BALANCED_REFLECTION:pick(CATEGORY_REFLECTIONS[weakKey],5);
-
-  /* Landing-page support card: show when Experience or Yes is 1-2, or a
-     relevant cross-category pattern is present. Hard override: hide when
-     both Experience and Yes are a full 3. */
-  let showLanding = (scores.E<=2) || (scores.Y<=2) || (cross && LANDING_TRIGGER_CROSS_IDS.includes(cross.id));
-  if(scores.E===3 && scores.Y===3) showLanding=false;
-
+  /* Emotional headline + signature note, tied to the readiness level */
+  const emotionalHeadline=pick(level.emotionalHeadlines,11);
+  const signatureNote=pick(SIGNATURE_NOTES[level.key],12);
+  /* Smarter, single conditional recommendation based on the weakest category.
+     Balanced/all-strong results fall back to the content guide as the safest
+     universal next step rather than defaulting to a specific fix. */
+  let recommendationCategory;
+  if(allEqual){
+    recommendationCategory = (scores.R===3) ? "A" : pickRecommendationCategory(weakest);
+  }else{
+    recommendationCategory = pickRecommendationCategory(weakest);
+  }
+  const recommendationKey = RECOMMENDATION_MAP[recommendationCategory];
   return {
     scores,perQ:Object.assign({},answers),total,pct,level,
     strongest,weakest,strongKey,weakKey,allEqual,
@@ -1063,7 +1158,9 @@ function computeResults(answers,nonce){
     opening:pick(level.openings,1),
     followReason:pick(level.followReasons,2).replace(/\{focus\}/g, allEqual?"the area you choose to strengthen next":CATS[weakKey].name),
     contentGuideCopy:pick(CONTENT_GUIDE_COPY,7),
-    showLanding,landingCopy:LANDING_CARD_COPY,
+    landingCopy:LANDING_CARD_COPY,
+    emotionalHeadline,signatureNote,
+    recommendationCategory,recommendationKey,
     strengthNote,strengthCelebrate,
     focusCaution,focusPains,focusNote,
     observations,
@@ -1072,7 +1169,6 @@ function computeResults(answers,nonce){
   };
 }
 /* __PURE_END__ */
-
 /* ====================== STATE & NAVIGATION ====================== */
 let userName="";
 let userEmail="";
@@ -1082,7 +1178,6 @@ let answers={};
 let lastResult=null;
 let completionId=null;
 let submissionAttemptedFor=null;
-
 function go(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   const el=document.getElementById(id);
@@ -1097,7 +1192,6 @@ function go(id){
     window.setTimeout(()=>{ el.focus({preventScroll:true}); }, 0);
   }
 }
-
 /* ====================== SESSION SAVE / RESUME ====================== */
 function saveSession(stage){
   const payload={
@@ -1126,7 +1220,6 @@ function loadSession(){
 function clearSession(){
   try{ localStorage.removeItem(CONFIG.storageKey); }catch(e){/* ignore */}
 }
-
 /* ====================== NAME / EMAIL VALIDATION ====================== */
 function setName(v){userName=(v||"").trim().replace(/[<>]/g,"").slice(0,30);}
 function isValidEmail(v){
@@ -1149,14 +1242,13 @@ function submitNameEmail(){
   const emailInputEl=document.getElementById("email-input");
   nameInputEl.classList.remove("invalid"); emailInputEl.classList.remove("invalid");
   hideFieldError("name-error"); hideFieldError("email-error");
-
   if(!nameVal){
-    showFieldError("name-error","Please enter your first name so we can personalize your result.");
+    showFieldError("name-error","We'd love to personalize this for you — just pop in your first name above.");
     nameInputEl.classList.add("invalid");
     valid=false;
   }
   if(!emailVal || !isValidEmail(emailVal)){
-    showFieldError("email-error","Please enter a valid email address so your completed Business Check can be recorded.");
+    showFieldError("email-error","That email doesn't look quite right — try again so we can send your results.");
     emailInputEl.classList.add("invalid");
     valid=false;
   }
@@ -1168,9 +1260,8 @@ function submitNameEmail(){
   userEmail=emailVal;
   marketingConsent=consentChecked?"yes":"no";
   saveSession("in_progress");
-  finish();
+  startAnalyzing();
 }
-
 function startCheck(){
   qIndex=0;answers={};hideError();
   completionId=null; submissionAttemptedFor=null;
@@ -1194,6 +1285,12 @@ function renderQuestion(){
   const ref=document.getElementById("q-reflect");
   ref.textContent=q.reflect||"";
   ref.style.display=q.reflect?"block":"none";
+  const whyWrap=document.getElementById("q-why");
+  if(whyWrap){
+    whyWrap.innerHTML = q.why
+      ? '<details class="why-details"><summary>Why this matters</summary><p>'+esc(q.why)+"</p></details>"
+      : "";
+  }
   const box=document.getElementById("score-btns");
   box.innerHTML="";
   const checkedIdx=RESPONSE_OPTIONS.findIndex(o=>answers[q.id]===o.pts);
@@ -1264,13 +1361,46 @@ document.addEventListener("keydown",e=>{
     if(opt){answers[q.id]=opt.pts;hideError();renderQuestion();saveSession("in_progress");}
   }
 });
+/* ====================== ANALYZING TRANSITION ======================
+   A short, premium-feeling pause between "you're done" and the reveal.
+   Purely perceptual — the score is already computed by this point. */
+const ANALYZING_STEPS=[
+  "Looking for growth opportunities",
+  "Reviewing your customer journey",
+  "Evaluating your business systems",
+  "Measuring business readiness",
+  "Building your personalized report"
+];
+function startAnalyzing(){
+  go("s-analyzing");
+  const list=document.getElementById("analyzing-list");
+  list.innerHTML="";
+  ANALYZING_STEPS.forEach(step=>{
+    const li=document.createElement("li");
+    li.innerHTML='<span class="chk" aria-hidden="true">&#10003;</span><span>'+esc(step)+"&hellip;</span>";
+    list.appendChild(li);
+  });
+  const items=[...list.children];
+  const reduceMotion=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduceMotion){
+    items.forEach(li=>{li.classList.add("show","done");});
+    window.setTimeout(finish,300);
+    return;
+  }
+  const stepDelay=620;
+  items.forEach((li,i)=>{
+    window.setTimeout(()=>{ li.classList.add("show"); }, i*stepDelay+150);
+    window.setTimeout(()=>{ li.classList.add("done"); }, i*stepDelay+530);
+  });
+  const total=items.length*stepDelay+700;
+  window.setTimeout(finish,total);
+}
 function finish(){
   renderResults(lastResult);
   saveSession("completed");
   submitCurrentResult();
   go("s-results");
 }
-
 /* ====================== FORMSPREE PAYLOAD + SUBMISSION ====================== */
 function answerLabel(qId){
   const opt=RESPONSE_OPTIONS.find(o=>o.pts===answers[qId]);
@@ -1295,6 +1425,7 @@ function buildFormspreePayload(r){
     yes_score:r.scores.Y,
     strongest_category:strongNames,
     focus_category:weakNames,
+    recommendation:r.recommendationKey,
     q1_reach_answer:answerLabel("R1"), q1_reach_score:answers.R1,
     q2_experience_answer:answerLabel("E1"), q2_experience_score:answers.E1,
     q3_authority_answer:answerLabel("A1"), q3_authority_score:answers.A1,
@@ -1349,15 +1480,15 @@ function submitCurrentResult(){
       setSubmitStatus("",""); /* success stays invisible — only surface a problem, not the expected outcome */
     }else{
       setSubmitStatus(
-        "Your results are ready, but we had trouble recording them. Please use the button below to try again."
-        +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Retry Submission</button></div>',
+        "Your results are ready &mdash; we just hit a snag saving them. Give it another try below."
+        +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Try That Again</button></div>',
         "fail"
       );
     }
   }).catch(()=>{
     setSubmitStatus(
-      "Your results are ready, but we had trouble recording them. Please use the button below to try again."
-      +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Retry Submission</button></div>',
+      "Your results are ready &mdash; we just hit a snag saving them. Give it another try below."
+      +'<div><button type="button" class="retry-btn" onclick="retrySubmission()">Try That Again</button></div>',
       "fail"
     );
   });
@@ -1366,7 +1497,6 @@ function retrySubmission(){
   submissionAttemptedFor=null; /* explicit user-initiated retry — allowed */
   submitCurrentResult();
 }
-
 /* ====================== RESULTS RENDERING ====================== */
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function listHtml(arr){return "<ul style=\"margin:6px 0 6px 18px;\">"+arr.map(x=>"<li style=\"margin-bottom:4px;\">"+esc(x)+"</li>").join("")+"</ul>";}
@@ -1394,11 +1524,8 @@ function renderResults(r){
   });
   let cats="";
   barOrder.forEach(k=>{cats+=catCard(r.catResults[k]);});
-
   /* 1. Overall R.E.A.D.Y. result */
   const openingParas=r.opening.map(p=>'<p style="margin-bottom:10px;">'+esc(p)+"</p>").join("");
-  /* Quick-glance R.E.A.D.Y. badge row: highlights the strongest and weakest
-     letters right in the hero, before anyone scrolls to the full breakdown. */
   const heroLetters='<div class="hero-letters">'+barOrder.map(k=>{
     const cls=(!r.allEqual&&r.strongest.includes(k))?" strong":(!r.allEqual&&r.weakest.includes(k))?" weak":"";
     return '<span class="'+cls.trim()+'" title="'+esc(CATS[k].name)+'">'+k+"</span>";
@@ -1406,6 +1533,7 @@ function renderResults(r){
   const heroBlock=
     '<div class="score-hero">'
       +'<div class="hero-marque">The Elite Vault</div>'
+      +'<div class="emotional-headline">'+esc(r.emotionalHeadline)+"</div>"
       +'<div class="lvl"><span aria-hidden="true">&#9733;</span> '+esc(r.level.playful)+"</div>"
       +"<h2>"+hello+" Business Readiness Score Is</h2>"
       +'<div class="big" id="score-total-num">0 <span style="font-size:.4em;color:#c9c4d2;">out of 15</span></div>'
@@ -1414,57 +1542,29 @@ function renderResults(r){
       +heroLetters
     +"</div>"
     +'<div class="card">'+openingParas+"</div>";
-
-  /* Decide the single primary next action for this visitor: the free 1:1 call
-     when their Experience/Yes scores flag a landing-page gap, otherwise the
-     content guide. Everything else becomes a smaller secondary link, so the
-     page never presents three competing offers of equal visual weight. */
-  const primaryIsLanding=!!r.showLanding;
-  const primary=primaryIsLanding?{
-    label:"FREE 15 MIN 1:1",href:CONFIG.landingPageCallUrl,
-    aria:"Schedule a call with The Elite Vault about a landing page (opens in a new tab)",
-    headline:"Give Interested People Somewhere to Go",body:r.landingCopy
-  }:{
-    label:"Get the Simplified Content Guide",href:CONFIG.simplifiedContentGuideUrl,
-    aria:"Get the Simplified Content Guide (opens in a new tab)",
-    headline:"Sharpen What You're Already Saying",body:r.contentGuideCopy
-  };
-  /* 1b. Your Next Step - one clear, dynamically-chosen recommended action, shown immediately under the score */
-  const nextStepBlock='<div class="next-step">'
-    +'<div class="ns-label">Your Next Step</div>'
-    +"<h3>"+esc(primary.headline)+"</h3>"
-    +"<p>"+esc(primary.body)+"</p>"
-    +'<a class="btn dark" href="'+primary.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+primary.aria+'">'+primary.label+"</a>"
-  +"</div>";
-
   /* 2. Category score bars */
   const barsBlock='<div class="card"><h3 class="section">&#128202; Your R.E.A.D.Y. Breakdown</h3>'+bars+"</div>";
-
-  /* 3. What May Already Be Working */
-  const workingBlock='<div class="card"><h3 class="section">&#9989; What May Already Be Working</h3>'
+  /* 3. What You're Already Doing Well */
+  const workingBlock='<div class="card"><h3 class="section">&#9989; What You&rsquo;re Already Doing Well</h3>'
     +'<div class="callout strong"><h4>'+(r.allEqual?"Balanced across all five areas":strongNames)+"</h4>"
     +(r.strengthCelebrate?'<p style="margin-bottom:8px;">'+esc(r.strengthCelebrate)+"</p>":"")
     +'<p style="margin:0;">'+esc(r.strengthNote)+"</p></div></div>";
-
-  /* 4. What May Be Slowing Your Growth */
+  /* 4. What May Be Slowing Your Growth (+ cross-category insight) */
+  const crossBlock=r.crossText?'<div class="callout insight"><h4>'+esc(r.cross.title)+'</h4><p style="margin:0;">'+esc(r.crossText)+"</p></div>":"";
   const slowingBlock=r.allEqual?"":
     '<div class="card"><h3 class="section">&#9888; What May Be Slowing Your Growth</h3>'
     +'<div class="callout weak"><h4>'+weakNames+"</h4>"
     +'<p style="margin-bottom:8px;">'+esc(r.focusCaution)+"</p>"
     +(r.focusNote?'<p style="margin-bottom:8px;">'+esc(r.focusNote)+"</p>":"")
     +(r.focusPains.length?listHtml(r.focusPains):"")
-    +"</div></div>";
-
-  /* 5. Main cross-category insight */
-  const crossBlock=r.crossText?'<div class="callout insight"><h4>'+esc(r.cross.title)+'</h4><p style="margin:0;">'+esc(r.crossText)+"</p></div>":"";
-
-  /* 6. What This May Look Like on Facebook */
-  const lookLikeBlock='<div class="card"><h3 class="section">&#128064; What This May Look Like on Facebook</h3>'+listHtml(r.observations)+"</div>";
-
-  /* 7. Category details */
+    +"</div>"
+    +crossBlock
+    +"</div>";
+  /* 5. What This Might Look Like on Facebook */
+  const lookLikeBlock='<div class="card"><h3 class="section">&#128064; What This Might Look Like on Facebook</h3>'+listHtml(r.observations)+"</div>";
+  /* Category details — preserved as an optional deeper-dive read */
   const catsBlock='<div class="card"><h3 class="section">&#129517; The Full Picture</h3><p class="small">Tap each category for your personalized read.</p>'+cats+"</div>";
-
-  /* 8. Your Focus for This Week */
+  /* 6. Focus For This Week */
   const focusBlock='<div class="move-box"><h3>&#127919; Your Focus for This Week</h3>'
     +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">What to Do</h5>'
     +'<p>'+esc(r.weekly.what)+"</p>"
@@ -1473,11 +1573,44 @@ function renderResults(r){
     +'<h5 style="color:var(--gold-soft);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">What to Pay Attention To</h5>'
     +'<p style="margin:0;color:#eee9f2;">'+esc(r.weekly.watch)+"</p>"
   +"</div>";
-
-  /* 9. Reflection question */
+  /* Reflection question — preserved as a personal gut-check before Sabrina's note */
   const reflectBlock='<div class="reflect-box"><span aria-hidden="true">💭</span> '+esc(r.reflection)+"</div>";
-
-  /* 10. Results summary card (no email, consent, or submission status) */
+  /* 7. If We Were Sitting Across From Each Other... */
+  const signatureBlock='<div class="signature-block">'
+    +'<h3>If We Were Sitting Across From Each Other&hellip;</h3>'
+    +r.signatureNote.map(p=>'<p>'+esc(p)+"</p>").join("")
+    +'<p class="sig-name">&mdash; Sabrina</p>'
+  +"</div>";
+  /* 8. Personalized Recommendation — exactly one, chosen by weakest category */
+  const REC_DETAILS={
+    landing:{headline:"Give Interested People Somewhere to Go",ctaLabel:"FREE 15 MIN 1:1",href:CONFIG.landingPageCallUrl,
+      aria:"Schedule a call with The Elite Vault about a landing page (opens in a new tab)",body:r.landingCopy},
+    guide:{headline:"Sharpen What You're Already Saying",ctaLabel:"Get the Simplified Content Guide",href:CONFIG.simplifiedContentGuideUrl,
+      aria:"Get the Simplified Content Guide (opens in a new tab)",body:r.contentGuideCopy},
+    follow:{headline:"Keep Building With The Elite Vault",ctaLabel:"Follow The Elite Vault",href:CONFIG.facebookUrl,
+      aria:"Follow The Elite Vault on Facebook (opens in a new tab)",body:r.followReason}
+  };
+  const rec=REC_DETAILS[r.recommendationKey]||REC_DETAILS.guide;
+  const recommendationBlock='<div class="next-step">'
+    +'<div class="ns-label">Your Personalized Recommendation</div>'
+    +"<h3>"+esc(rec.headline)+"</h3>"
+    +"<p>"+esc(rec.body)+"</p>"
+    +'<a class="btn dark" href="'+rec.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+rec.aria+'">'+rec.ctaLabel+"</a>"
+  +"</div>";
+  /* 9. Continue Building With The Elite Vault — skips a duplicate button
+     when the personalized recommendation above is already "Follow". */
+  const continueBuildingBlock = (r.recommendationKey!=="follow")
+    ? '<div class="card fb-card">'
+        +'<h3 class="section">Continue Building With The Elite Vault</h3>'
+        +"<p>"+esc(r.followReason)+"</p>"
+        +'<a class="btn" href="'+CONFIG.facebookUrl+'" target="_blank" rel="noopener noreferrer" aria-label="Follow The Elite Vault on Facebook (opens in a new tab)">Follow The Elite Vault</a>'
+      +"</div>"
+    : '<div class="card fb-card">'
+        +'<h3 class="section">Continue Building With The Elite Vault</h3>'
+        +"<p>You already know where to find us. We&rsquo;ll be right here when you&rsquo;re ready for the next piece.</p>"
+      +"</div>";
+  /* Results summary card (no email, consent, or submission status) — kept as a
+     practical utility footer: save, print, or start over. */
   const summaryBlock='<div id="summary-card">'
     +'<div class="sc-brand">The Elite Vault</div>'
     +'<div class="sc-title">The R.E.A.D.Y. Business Check™</div>'
@@ -1504,48 +1637,25 @@ function renderResults(r){
   +"</div>"
   +'<div class="copied-note" id="copy-note" aria-live="polite"></div>'
   +'<div class="restart-confirm" id="restart-confirm" style="display:none;" role="alertdialog" aria-live="assertive">'
-    +'<p>Are you sure you want to restart? Your current answers will be cleared.</p>'
+    +'<p>Ready to start fresh? Your current answers will be cleared &mdash; that&rsquo;s okay, we&rsquo;ll be right here.</p>'
     +'<div class="btn-row">'
       +'<button class="btn ghost" onclick="cancelRestart()">Keep My Results</button>'
       +'<button class="btn dark" onclick="confirmRestart()">Restart the Check</button>'
     +"</div>"
   +"</div>"
   +'<div id="submit-status" class="submit-status" style="display:none;" aria-live="polite"></div>';
-
-  /* 11. Consolidated close: one primary action repeated as a short, focused ask,
-     plus two lightweight secondary links (content guide / Facebook) so the
-     page ends with a single clear next step instead of three competing cards. */
-  const closingLine=primaryIsLanding
-    ? "Ready to give interested people somewhere clear to click? Grab a spot below."
-    : "Ready to make your content work harder for you? Grab your guide below.";
-  const secondaryLinks=[];
-  if(primaryIsLanding){
-    secondaryLinks.push({label:"Get the Content Guide",href:CONFIG.simplifiedContentGuideUrl,aria:"Get the Simplified Content Guide (opens in a new tab)"});
-  }
-  secondaryLinks.push({label:"Follow The Elite Vault",href:CONFIG.facebookUrl,aria:"Follow The Elite Vault on Facebook (opens in a new tab)"});
-  const ctaConsolidatedBlock='<div class="cta-consolidated">'
-    +'<h3 class="section">Ready for Your Next Move?</h3>'
-    +'<p class="primary-cta-text">'+esc(closingLine)+"</p>"
-    +'<a class="btn dark" href="'+primary.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+primary.aria+'">'+primary.label+"</a>"
-    +'<div class="cta-secondary-row">'
-      +secondaryLinks.map(s=>'<a href="'+s.href+'" target="_blank" rel="noopener noreferrer" aria-label="'+s.aria+'">'+s.label+"</a>").join("")
-    +"</div>"
-  +"</div>";
-
   document.getElementById("results-content").innerHTML =
-    heroBlock + nextStepBlock + barsBlock + workingBlock + slowingBlock + crossBlock + lookLikeBlock
-    + catsBlock + focusBlock + reflectBlock + summaryBlock + ctaConsolidatedBlock;
-
+    heroBlock + barsBlock + workingBlock + slowingBlock + lookLikeBlock
+    + catsBlock + focusBlock + reflectBlock + signatureBlock + recommendationBlock
+    + continueBuildingBlock + summaryBlock;
   initResultsReveal(r);
 }
-
 /* ====================== RESULTS REVEAL ANIMATION ======================
    Gives the results screen a sense of payoff: the headline score counts
    up, the R.E.A.D.Y. bars grow into place, and each card cascades into
    view as the visitor scrolls. Fully inert under prefers-reduced-motion. */
 function initResultsReveal(r){
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   /* Score count-up */
   const numEl=document.getElementById("score-total-num");
   if(numEl && numEl.firstChild){
@@ -1562,7 +1672,6 @@ function initResultsReveal(r){
       requestAnimationFrame(tick);
     }
   }
-
   /* Category bars grow from 0 to their score width (CSS transition does the work;
      the double rAF ensures the browser paints the 0% state first so the transition fires). */
   const fills=document.querySelectorAll("#results-content .bar-fill[data-w]");
@@ -1571,7 +1680,6 @@ function initResultsReveal(r){
       fills.forEach(el=>{ el.style.width=el.getAttribute("data-w"); });
     });
   });
-
   /* Staggered card entrances as the visitor scrolls down the results. */
   const rc=document.getElementById("results-content");
   const items=Array.from(rc.children);
@@ -1593,7 +1701,6 @@ function initResultsReveal(r){
     items.forEach(el=>io.observe(el));
   }
 }
-
 /* ====================== INTERACTIONS ====================== */
 function buildCopyText(r){
   const strongNames=r.allEqual?"Balanced":r.strongest.map(k=>CATS[k].name).join(" + ");
@@ -1667,7 +1774,6 @@ document.getElementById("name-input").addEventListener("keydown",e=>{
 document.getElementById("email-input").addEventListener("keydown",e=>{
   if(e.key==="Enter"){ e.preventDefault(); submitNameEmail(); }
 });
-
 /* ====================== SESSION RESUME ON LOAD ======================
    If the page refreshes mid-assessment, restore first name, email,
    consent, current question, and answers — but only when the saved
